@@ -20,6 +20,9 @@ class UserInputProvider extends ChangeNotifier {
   bool _currentWordIsEmpty = false;
   bool get currentWordIsEmpty => _currentWordIsEmpty;
 
+  int _attemptNumber = 0;
+  int get attemptNumber => _attemptNumber;
+
   String todaysWord;
 
   UserInputProvider(this.todaysWord);
@@ -56,8 +59,10 @@ class UserInputProvider extends ChangeNotifier {
   }
 
   void compareToCurrentWord() {
-    print(
+    if (kDebugMode) {
+      print(
         "comparing _currentUserInput=$_currentUserInput and todaysWord=$todaysWord");
+    }
     if (_currentUserInput == todaysWord) {
       _hasWon = true;
     } else {
@@ -68,7 +73,10 @@ class UserInputProvider extends ChangeNotifier {
       intersection.addAll(_lettersFound);
       _lettersFound = intersection;
     }
-    print("lettersFound = $lettersFound");
+    _attemptNumber += 1;
+    if (kDebugMode) {
+      print("lettersFound = $lettersFound");
+    }
     notifyListeners();
   }
 

@@ -60,7 +60,7 @@ class PoemDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Flexible(flex: 1, child: SizedBox()),
+        const Flexible(flex: 1, child: SizedBox()),
         Flexible(
           flex: 8,
           child: wrapVerseInText(verse),

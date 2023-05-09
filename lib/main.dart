@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poetrai/screens/attempt_number.dart';
 import 'package:poetrai/screens/poem_display.dart';
 import 'package:poetrai/screens/poetrai_appbar.dart';
 import 'package:poetrai/screens/user_input_area.dart';
@@ -52,6 +53,7 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 40,
             ),
+            AttemptNumber(),
             PoemDisplay(),
             SizedBox(
               height: 40,
@@ -61,66 +63,66 @@ class _HomeState extends State<Home> {
         ));
   }
 
-  // bool get isWebMobile =>
-  //     kIsWeb &&
-  //         (defaultTargetPlatform == TargetPlatform.iOS ||
-  //             defaultTargetPlatform == TargetPlatform.android);
+// bool get isWebMobile =>
+//     kIsWeb &&
+//         (defaultTargetPlatform == TargetPlatform.iOS ||
+//             defaultTargetPlatform == TargetPlatform.android);
 
-  // showFirstTimeLoad(BuildContext context) {
-  //   CookieData()
-  //       .readData()
-  //       .then((value) {
-  //     if (value.totalGames == 0) {
-  //       AlertDialog alertDialog = AlertDialog(
-  //         title: Text(S
-  //             .of(context)
-  //             .subtitle, textAlign: TextAlign.center),
-  //         content: Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           children: [
-  //             Text(S
-  //                 .of(context)
-  //                 .read_help),
-  //             Text(S
-  //                 .of(context)
-  //                 .read_help_2),
-  //             Text(S
-  //                 .of(context)
-  //                 .read_help_3)
-  //           ],
-  //         ),
-  //         actions: [
-  //           closeGameRulesButton(context)
-  //         ],
-  //       );
-  //       showDialog(
-  //           context: context,
-  //           builder: (_) =>
-  //               Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 crossAxisAlignment: CrossAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [alertDialog],
-  //               ));
-  //     }
-  //   });
-  // }
+// showFirstTimeLoad(BuildContext context) {
+//   CookieData()
+//       .readData()
+//       .then((value) {
+//     if (value.totalGames == 0) {
+//       AlertDialog alertDialog = AlertDialog(
+//         title: Text(S
+//             .of(context)
+//             .subtitle, textAlign: TextAlign.center),
+//         content: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             Text(S
+//                 .of(context)
+//                 .read_help),
+//             Text(S
+//                 .of(context)
+//                 .read_help_2),
+//             Text(S
+//                 .of(context)
+//                 .read_help_3)
+//           ],
+//         ),
+//         actions: [
+//           closeGameRulesButton(context)
+//         ],
+//       );
+//       showDialog(
+//           context: context,
+//           builder: (_) =>
+//               Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [alertDialog],
+//               ));
+//     }
+//   });
+// }
 
-  // Widget closeGameRulesButton(BuildContext context) {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     children: [
-  //       MaterialButton(
-  //           child: Text(S
-  //               .of(context)
-  //               .open_game,
-  //               style: const TextStyle(fontSize: 20, color: Colors.lightGreen)),
-  //           onPressed: () {
-  //             Navigator.of(context).pop();
-  //           })
-  //     ],
-  //   );
-  // }
+// Widget closeGameRulesButton(BuildContext context) {
+//   return Row(
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     crossAxisAlignment: CrossAxisAlignment.center,
+//     children: [
+//       MaterialButton(
+//           child: Text(S
+//               .of(context)
+//               .open_game,
+//               style: const TextStyle(fontSize: 20, color: Colors.lightGreen)),
+//           onPressed: () {
+//             Navigator.of(context).pop();
+//           })
+//     ],
+//   );
+// }
 }
