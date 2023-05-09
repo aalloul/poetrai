@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:poetrai/screens/hints_row.dart';
 import 'package:poetrai/screens/poem_display.dart';
 import 'package:poetrai/screens/poetrai_appbar.dart';
 import 'package:poetrai/screens/user_input_area.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -23,8 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider(
           create: (context) => UserInputProvider("chainsaw"),
-          child: const Home()
-      ),
+          child: const Home()),
     );
   }
 }
@@ -37,7 +34,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
@@ -62,16 +58,13 @@ class _HomeState extends State<Home> {
             ),
             UserInputArea(),
           ],
-        )
-    );
+        ));
   }
 
   // bool get isWebMobile =>
   //     kIsWeb &&
   //         (defaultTargetPlatform == TargetPlatform.iOS ||
   //             defaultTargetPlatform == TargetPlatform.android);
-
-
 
   // showFirstTimeLoad(BuildContext context) {
   //   CookieData()

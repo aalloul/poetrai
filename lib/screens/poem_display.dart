@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 class PoemDisplay extends StatelessWidget {
   const PoemDisplay({Key? key}) : super(key: key);
   static final List<String> poem = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper..\nPhasellus rhoncus lectus at lorem laoreet, molestie consequat velit semper.",
+    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
+    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
+    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
+    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
   ];
 
   @override
@@ -71,6 +71,7 @@ class PoemDisplay extends StatelessWidget {
   }
 
   Widget wrapVerseInText(String verse) {
-    return Text(verse, style: GoogleFonts.dancingScript(fontWeight: FontWeight.w700));
+    return Text(verse,
+        style: GoogleFonts.architectsDaughter(fontWeight: FontWeight.w700));
   }
 }

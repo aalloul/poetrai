@@ -7,11 +7,9 @@ class PoetrAIAppBar extends StatefulWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
 }
 
 class _PoetrAIAppBar extends State<PoetrAIAppBar> {
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -24,7 +22,10 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset("assets/images/maskable_icon_x96.png", scale: 1.5,),
+        Image.asset(
+          "assets/images/maskable_icon_x96.png",
+          scale: 1.5,
+        ),
         kDebugMode ? const Text("PoetrAI v0.0.1 - ") : const Text("PoetrAI")
       ],
     );
@@ -33,8 +34,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   Widget showStatsButton(BuildContext context) {
     return MaterialButton(
       elevation: 3,
-      onPressed: () {
-      },
+      onPressed: () {},
       padding: EdgeInsets.zero,
       child: const Icon(Icons.bar_chart, color: Colors.white),
     );
