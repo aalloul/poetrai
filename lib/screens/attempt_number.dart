@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:poetrai/constants.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -33,20 +34,8 @@ class AttemptNumber extends StatelessWidget {
   }
 
   Widget getEmojiForAttempt(int attemptNumber) {
-    switch (attemptNumber) {
-      case 1:
-        return const Text("🤩");
-      case 2:
-        return const Text("🙂");
-      case 3:
-        return const Text("🤔");
-      case 4:
-        return const Text("🤨");
-      case 5:
-        return const Text("😢");
-      default:
-        return const Text("");
-    }
+    return Text("$attemptNumber/${Constants.attemptNumbers}");
+
   }
 
   Color progressColor(int attemptNumber) {

@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:poetrai/constants.dart';
+
+import '../utils.dart';
 
 class UserInputProvider extends ChangeNotifier {
   String _currentUserInput = "";
@@ -12,15 +15,23 @@ class UserInputProvider extends ChangeNotifier {
   Set<String> get lettersFound => _lettersFound;
 
   bool _hasWon = false;
+
   bool get hasWon => _hasWon;
 
   bool _wordDoesNotExist = false;
+
   bool get wordDoesNotExist => _wordDoesNotExist;
 
   bool _currentWordIsEmpty = false;
+
   bool get currentWordIsEmpty => _currentWordIsEmpty;
 
+  bool _gameOver = false;
+
+  bool get gameOver => _gameOver;
+
   int _attemptNumber = 0;
+
   int get attemptNumber => _attemptNumber;
 
   String todaysWord;
@@ -28,29 +39,43 @@ class UserInputProvider extends ChangeNotifier {
   UserInputProvider(this.todaysWord);
 
   void addLetterUserInput(String letter) {
-    print("Adding letter $letter");
-    _currentUserInput += letter;
-    print("new word is $_currentUserInput");
-    notifyListeners();
+    if (_gameOver) {
+      printIfDebug("Game is finished - disable editing");
+      return;
+    } else {
+      _currentUserInput += letter;
+
+      printIfDebug("Adding letter $letter");
+      printIfDebug("new word is $_currentUserInput");
+      notifyListeners();
+    }
   }
 
   void deleteLastInputLetter() {
-    print("Delete last letter");
-    if (_currentUserInput.length <= 1) {
-      _currentUserInput = "";
+    if (_gameOver) {
+      printIfDebug("Game is finished - disable editing");
+      return;
     } else {
-      _currentUserInput =
-          _currentUserInput.substring(0, _currentUserInput.length - 1);
+      printIfDebug("Delete last letter");
+      if (_currentUserInput.length <= 1) {
+        _currentUserInput = "";
+      } else {
+        _currentUserInput =
+            _currentUserInput.substring(0, _currentUserInput.length - 1);
+      }
+      printIfDebug("new word is $_currentUserInput");
+      notifyListeners();
     }
-    print("new word is $_currentUserInput");
-    notifyListeners();
   }
 
   void commit() {
+    if (_gameOver) {
+      printIfDebug("Game over - disable commit");
+      return;
+    }
     if (_currentUserInput.isEmpty) {
       notifyCurrentWordIsEmpty();
-    }
-    else if (doesWordExist()) {
+    } else if (doesWordExist()) {
       notifyWordDoesNotExist();
     } else {
       compareToCurrentWord();
@@ -59,10 +84,8 @@ class UserInputProvider extends ChangeNotifier {
   }
 
   void compareToCurrentWord() {
-    if (kDebugMode) {
-      print(
+    printIfDebug(
         "comparing _currentUserInput=$_currentUserInput and todaysWord=$todaysWord");
-    }
     if (_currentUserInput == todaysWord) {
       _hasWon = true;
     } else {
@@ -74,9 +97,9 @@ class UserInputProvider extends ChangeNotifier {
       _lettersFound = intersection;
     }
     _attemptNumber += 1;
-    if (kDebugMode) {
-      print("lettersFound = $lettersFound");
-    }
+    _gameOver = _attemptNumber == Constants.attemptNumbers;
+
+    printIfDebug("lettersFound = $lettersFound");
     notifyListeners();
   }
 
@@ -100,5 +123,4 @@ class UserInputProvider extends ChangeNotifier {
     _currentWordIsEmpty = false;
     notifyListeners();
   }
-
 }

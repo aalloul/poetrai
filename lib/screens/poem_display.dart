@@ -65,7 +65,7 @@ class PoemDisplay extends StatelessWidget {
           flex: 8,
           child: wrapVerseInText(verse),
         ),
-        Flexible(flex: 1, child: SizedBox()),
+        const Flexible(flex: 1, child: SizedBox()),
       ],
     );
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -162,7 +161,7 @@ class UserInputArea extends StatelessWidget {
       BuildContext context, UserInputProvider userInputProvider) {
     String text = "";
     if (currentWordIsEmpty) {
-      text = "Empty word";
+      text = "Type a word";
     } else if (wordDoesNotExist) {
       text = "Not in word list";
     }
@@ -184,11 +183,11 @@ class UserInputArea extends StatelessWidget {
             width: 200,
             behavior: SnackBarBehavior.floating,
             onVisible: userInputProvider.resetWordFlags,
+            duration: const Duration(seconds: 1),
           ),
         );
       });
     }
     return Container();
   }
-
 }
