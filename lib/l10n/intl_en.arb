@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "congratulations": "Congratulations !",
+  "too_bad": "Too bad !",
+  "incorrect_word": "You didn’t find the right word this time. Try again tomorrow!",
+  "correct_word": "You found the right word. Come back tomorrow for a new game :)",
+  "open_game": "Start the game",
+  "back_to_game": "Back to game",
+  "welcome": "Welcome to PetrAI",
+  "share_button": "Share",
+  "share_text": "Will you be able to guess today's word based on an AI-generated poem? You have 5 tries! Here ere my results:",
+  "@share_text": {
+    "placeholders": {
+      "todaysDate": {
+        "type": "String"
+      }
+    }
+  },
+  "giveItATry": "You can try here: https://poetr.ai"
+}

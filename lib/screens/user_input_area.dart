@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:poetrai/models/user_input_provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:tuple/tuple.dart';
 
 class UserInputArea extends StatelessWidget {
@@ -167,27 +169,46 @@ class UserInputArea extends StatelessWidget {
     }
     if (wordDoesNotExist || currentWordIsEmpty) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28),
-                side: const BorderSide(width: 1, color: Colors.grey)),
-            content: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20.0,
-                  color: Colors.white),
-            ),
-            width: 200,
-            behavior: SnackBarBehavior.floating,
-            onVisible: userInputProvider.resetWordFlags,
-            duration: const Duration(seconds: 1),
-          ),
-        );
+        getNativeSnackBar(text, context);
       });
     }
     return Container();
+  }
+
+  getSnackBar(String text, BuildContext context) {
+    showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.info(
+            textStyle: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20.0,
+                color: Colors.white),
+            maxLines: 1,
+            message: text,
+            backgroundColor: Colors.grey),
+        displayDuration: const Duration(seconds: 1),
+        animationDuration: const Duration(milliseconds: 800));
+  }
+
+  getNativeSnackBar(String text, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+            side: const BorderSide(width: 1, color: Colors.grey)),
+        content: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20.0,
+              color: Colors.white),
+        ),
+        width: 200,
+        behavior: SnackBarBehavior.floating,
+        // onVisible: userInputProvider.resetWordFlags,
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
 }

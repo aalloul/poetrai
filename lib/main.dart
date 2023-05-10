@@ -1,10 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:poetrai/screens/attempt_number.dart';
+import 'package:poetrai/screens/game_over_dialog.dart';
 import 'package:poetrai/screens/poem_display.dart';
 import 'package:poetrai/screens/poetrai_appbar.dart';
 import 'package:poetrai/screens/user_input_area.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,10 +23,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       title: 'PoetrAI - Guess today\'s word based on AI-generated poetry',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('fr', ''),
+      ],
+      builder: (context, widget) =>
+          ResponsiveWrapper.builder(
+            BouncingScrollWrapper.builder(context, widget!),
+            maxWidth: 1200,
+            minWidth: 450,
+            defaultScale: true,
+            breakpoints: [
+              const ResponsiveBreakpoint.resize(450, name: MOBILE),
+              const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+              const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+              const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+              const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+            ],
+            background: Container(color: const Color(0xFFF5F5F5)),
+          ),
       home: ChangeNotifierProvider(
           create: (context) => UserInputProvider("chainsaw"),
           child: const Home()),
@@ -49,19 +82,29 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            SizedBox(
+          children: [
+            const SizedBox(
               height: 40,
             ),
-            AttemptNumber(),
-            PoemDisplay(),
-            SizedBox(
+            const AttemptNumber(),
+            const PoemDisplay(),
+            const SizedBox(
               height: 40,
             ),
-            UserInputArea(),
+            GameOverDialog(
+              // analytics: widget.analytics,
+              // observer: widget.observer,
+              isWebMobile: isWebMobile,
+            ),
+            const UserInputArea(),
           ],
         ));
   }
+
+  bool get isWebMobile =>
+      kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.iOS ||
+              defaultTargetPlatform == TargetPlatform.android);
 
 // bool get isWebMobile =>
 //     kIsWeb &&
