@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:poetrai/constants.dart';
+import 'package:poetrai/models/dictionary_reader.dart';
 
 import '../utils.dart';
 
@@ -70,14 +69,15 @@ class UserInputProvider extends ChangeNotifier {
     }
   }
 
-  void commit() {
+  void commit(Dictionary dictionary) {
     if (_gameOver) {
       printIfDebug("Game over - disable commit");
       return;
     }
     if (_currentUserInput.isEmpty) {
       notifyCurrentWordIsEmpty();
-    } else if (doesWordExist()) {
+    } else if (!dictionary.containsWord(_currentUserInput)) {
+      printIfDebug("word $_currentUserInput does not exists");
       notifyWordDoesNotExist();
     } else {
       compareToCurrentWord();
@@ -103,11 +103,6 @@ class UserInputProvider extends ChangeNotifier {
 
     printIfDebug("lettersFound = $lettersFound");
     notifyListeners();
-  }
-
-  bool doesWordExist() {
-    // TODO implement this
-    return (Random().nextInt(10) % 2 == 0);
   }
 
   void notifyCurrentWordIsEmpty() {

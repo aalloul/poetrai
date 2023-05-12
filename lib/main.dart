@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:poetrai/models/dictionary_reader.dart';
 import 'package:poetrai/screens/attempt_number.dart';
 import 'package:poetrai/screens/game_over_dialog.dart';
 import 'package:poetrai/screens/poem_display.dart';
@@ -53,9 +54,13 @@ class MyApp extends StatelessWidget {
             ],
             background: Container(color: const Color(0xFFF5F5F5)),
           ),
-      home: ChangeNotifierProvider(
-          create: (context) => UserInputProvider("chainsaw"),
-          child: const Home()),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => UserInputProvider("chainsaw")),
+          FutureProvider<Dictionary>(create: (_) => DictionaryReader().readDictionary(), initialData: Dictionary([""]))
+        ],
+        child: const Home(),
+      )
     );
   }
 }

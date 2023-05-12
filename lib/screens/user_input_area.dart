@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:poetrai/models/dictionary_reader.dart';
+import 'package:poetrai/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -13,6 +15,7 @@ class UserInputArea extends StatelessWidget {
   Widget build(BuildContext context) {
     UserInputProvider userInputProvider =
         Provider.of<UserInputProvider>(context, listen: false);
+    Dictionary dictionary = Provider.of<Dictionary>(context);
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -34,7 +37,8 @@ class UserInputArea extends StatelessWidget {
               return keyBoard(
                   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
                   userInputProvider,
-                  data);
+                  data,
+                  null);
             }),
         Selector<UserInputProvider, Set<String>>(
             selector: (_, userInputProvider) => userInputProvider.lettersFound,
@@ -42,7 +46,8 @@ class UserInputArea extends StatelessWidget {
               return keyBoard(
                   ["a", "s", "d", "f", "g", "h", "j", "k", "k", "l"],
                   userInputProvider,
-                  data);
+                  data,
+                  null);
             }),
         Selector<UserInputProvider, Set<String>>(
             selector: (_, userInputProvider) => userInputProvider.lettersFound,
@@ -51,6 +56,7 @@ class UserInputArea extends StatelessWidget {
                 ["Enter", "z", "x", "c", "v", "b", "n", "m", "Delete"],
                 userInputProvider,
                 data,
+                dictionary,
               );
             },
             shouldRebuild: (before, after) {
@@ -87,14 +93,15 @@ class UserInputArea extends StatelessWidget {
   }
 
   Widget keyBoard(List<String> letters, UserInputProvider userInputProvider,
-      Set<String> lettersFound) {
+      Set<String> lettersFound, Dictionary? dictionary) {
     Widget lettersContainer = Container(
         color: Colors.black38,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: letters
               .map((e) => Expanded(
-                  child: stylizeLetter(e, userInputProvider, lettersFound)))
+                  child: stylizeLetter(
+                      e, userInputProvider, lettersFound, dictionary)))
               .toList(growable: false),
         ));
     List<Widget> rowChildren = [
@@ -111,7 +118,7 @@ class UserInputArea extends StatelessWidget {
   }
 
   Widget stylizeLetter(String letter, UserInputProvider userInputProvider,
-      Set<String> lettersFound) {
+      Set<String> lettersFound, Dictionary? dictionary) {
     if (letter == "Enter") {
       return IconButton(
         padding: const EdgeInsets.all(1),
@@ -120,7 +127,7 @@ class UserInputArea extends StatelessWidget {
           color: Colors.white,
         ),
         onPressed: () {
-          userInputProvider.commit();
+          userInputProvider.commit(dictionary!);
         },
         color: Colors.black45,
       );
@@ -162,6 +169,7 @@ class UserInputArea extends StatelessWidget {
   Widget dialogPlaceHolder(bool wordDoesNotExist, bool currentWordIsEmpty,
       BuildContext context, UserInputProvider userInputProvider) {
     String text = "";
+    printIfDebug("dialogPlaceHolder - currentWordIsEmpty=$currentWordIsEmpty - wordDoesNotExist=$wordDoesNotExist");
     if (currentWordIsEmpty) {
       text = "Type a word";
     } else if (wordDoesNotExist) {
@@ -169,7 +177,7 @@ class UserInputArea extends StatelessWidget {
     }
     if (wordDoesNotExist || currentWordIsEmpty) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        getNativeSnackBar(text, context);
+        getNativeSnackBar(text, context, userInputProvider);
       });
     }
     return Container();
@@ -190,7 +198,7 @@ class UserInputArea extends StatelessWidget {
         animationDuration: const Duration(milliseconds: 800));
   }
 
-  getNativeSnackBar(String text, BuildContext context) {
+  getNativeSnackBar(String text, BuildContext context, UserInputProvider userInputProvider) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         shape: RoundedRectangleBorder(
@@ -200,13 +208,11 @@ class UserInputArea extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 20.0,
-              color: Colors.white),
+              fontWeight: FontWeight.w500, fontSize: 20.0, color: Colors.white),
         ),
         width: 200,
         behavior: SnackBarBehavior.floating,
-        // onVisible: userInputProvider.resetWordFlags,
+        onVisible: userInputProvider.resetWordFlags,
         duration: const Duration(seconds: 1),
       ),
     );

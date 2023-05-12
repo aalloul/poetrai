@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../models/dictionary_reader.dart';
+
 class PoetrAIAppBar extends StatefulWidget with PreferredSizeWidget {
   @override
   State<StatefulWidget> createState() => _PoetrAIAppBar();
@@ -34,7 +36,9 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   Widget showStatsButton(BuildContext context) {
     return MaterialButton(
       elevation: 3,
-      onPressed: () {},
+      onPressed: () {
+        DictionaryReader().readDictionary();
+      },
       padding: EdgeInsets.zero,
       child: const Icon(Icons.bar_chart, color: Colors.white),
     );
