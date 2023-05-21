@@ -20,9 +20,7 @@ class GameOverDialog extends StatelessWidget {
 
     return Selector<UserInputProvider, Tuple2<bool, bool>>(
       selector: (_, userInputProvider) => Tuple2(userInputProvider.gameOver, userInputProvider.hasWon),
-      builder: (context, data, child) {
-        return emptyContainer(context, data.item1, data.item2, userInputProvider);
-      },
+      builder: (context, data, child) => emptyContainer(context, data.item1, data.item2, userInputProvider),
     );
   }
 

@@ -87,7 +87,9 @@ class UserInputProvider extends ChangeNotifier {
     printIfDebug(
         "comparing _currentUserInput=$_currentUserInput and todaysWord=$todaysWord");
     if (_currentUserInput == todaysWord) {
+      printIfDebug("currentWord = todaysWord");
       _hasWon = true;
+      _gameOver = true;
     } else {
       Set<String> intersection = _currentUserInput
           .split('')
@@ -95,9 +97,9 @@ class UserInputProvider extends ChangeNotifier {
           .intersection(todaysWord.split('').toSet());
       intersection.addAll(_lettersFound);
       _lettersFound = intersection;
+      _gameOver = _attemptNumber == Constants.attemptNumbers;
     }
     _attemptNumber += 1;
-    _gameOver = _attemptNumber == Constants.attemptNumbers;
 
     printIfDebug("lettersFound = $lettersFound");
     notifyListeners();
