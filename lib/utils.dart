@@ -23,3 +23,16 @@ String todayInFullWords() {
   final DateFormat formatter = DateFormat('dd MMMM y');
   return formatter.format(today());
 }
+
+String todayAsString() {
+  // Returns the date as %Y%m%d
+  final DateTime todayDate = today();
+  String formattedDate = "${todayDate.year}";
+  if (todayDate.month < 10) {
+    formattedDate += "0${todayDate.month}";
+  } else {
+    formattedDate += "${todayDate.month}";
+  }
+  formattedDate += "${todayDate.day}";
+  return formattedDate;
+}

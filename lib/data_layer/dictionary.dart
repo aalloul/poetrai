@@ -6,8 +6,10 @@ import 'package:archive/archive.dart';
 import '../utils.dart';
 
 class DictionaryReader {
+  // To generate the archive, use
+  // `bzip2 -c -k --best poems.json > poems.bzip2`
   Future<Dictionary> readDictionary() async {
-    return rootBundle.load("assets/dictionary/en.gzip").then((value) {
+    return rootBundle.load("assets/dictionary/en.bzip2").then((value) {
       return Dictionary.fromString(
           utf8.decode(BZip2Decoder().decodeBytes(value.buffer.asUint8List()))
       );

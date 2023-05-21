@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:poetrai/models/dictionary_reader.dart';
+import 'package:flutter/services.dart';
+import 'package:poetrai/data_layer/cookie_data.dart';
+import 'package:timezone/timezone.dart';
+import '../data_layer/dictionary.dart';
 import 'package:poetrai/screens/attempt_number.dart';
 import 'package:poetrai/screens/game_over_dialog.dart';
 import 'package:poetrai/screens/poem_display.dart';
@@ -12,9 +15,13 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var byteData = await rootBundle.load('packages/timezone/data/latest.tzf');
+  initializeDatabase(byteData.buffer.asUint8List());
   runApp(const MyApp());
 }
 
@@ -56,8 +63,10 @@ class MyApp extends StatelessWidget {
           ),
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => UserInputProvider("chainsaw")),
-          FutureProvider<Dictionary>(create: (_) => DictionaryReader().readDictionary(), initialData: Dictionary([""]))
+          ChangeNotifierProvider(create: (_) => UserInputProvider()),
+          FutureProvider<Dictionary>(create: (_) => DictionaryReader().readDictionary(), initialData: Dictionary([""])),
+          ChangeNotifierProvider(create: (_) => CookieData()),
+          FutureProvider<Poem>(create: (_) => PoemReader().readPoem(), initialData: Poem.empty()),
         ],
         child: const Home(),
       )
@@ -82,11 +91,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PoetrAIAppBar(),
+        appBar: const PoetrAIAppBar(),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(
               height: 40,

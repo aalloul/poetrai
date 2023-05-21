@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:poetrai/constants.dart';
-import 'package:poetrai/models/dictionary_reader.dart';
+import 'package:poetrai/data_layer/dictionary.dart';
 
 import '../utils.dart';
 
@@ -9,7 +9,7 @@ class UserInputProvider extends ChangeNotifier {
 
   String get currentUserInput => _currentUserInput;
 
-  Set<String> _lettersFound = Set<String>();
+  Set<String> _lettersFound = <String>{};
 
   Set<String> get lettersFound => _lettersFound;
 
@@ -33,9 +33,7 @@ class UserInputProvider extends ChangeNotifier {
 
   int get attemptNumber => _attemptNumber;
 
-  String todaysWord;
-
-  UserInputProvider(this.todaysWord);
+  UserInputProvider();
 
   String get boxesForShareMessage => "";
 
@@ -69,7 +67,7 @@ class UserInputProvider extends ChangeNotifier {
     }
   }
 
-  void commit(Dictionary dictionary) {
+  void commit(Dictionary dictionary, String todaysWord) {
     if (_gameOver) {
       printIfDebug("Game over - disable commit");
       return;
@@ -80,12 +78,12 @@ class UserInputProvider extends ChangeNotifier {
       printIfDebug("word $_currentUserInput does not exists");
       notifyWordDoesNotExist();
     } else {
-      compareToCurrentWord();
+      compareToCurrentWord(todaysWord);
       _currentUserInput = "";
     }
   }
 
-  void compareToCurrentWord() {
+  void compareToCurrentWord(String todaysWord) {
     printIfDebug(
         "comparing _currentUserInput=$_currentUserInput and todaysWord=$todaysWord");
     if (_currentUserInput == todaysWord) {

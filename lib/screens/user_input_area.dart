@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:poetrai/models/dictionary_reader.dart';
+import '../data_layer/dictionary.dart';
 import 'package:poetrai/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:tuple/tuple.dart';
+
+import '../data_layer/poem.dart';
 
 class UserInputArea extends StatelessWidget {
   const UserInputArea({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class UserInputArea extends StatelessWidget {
     UserInputProvider userInputProvider =
         Provider.of<UserInputProvider>(context, listen: false);
     Dictionary dictionary = Provider.of<Dictionary>(context);
+    Poem poem = Provider.of<Poem>(context);
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -38,7 +41,7 @@ class UserInputArea extends StatelessWidget {
                   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
                   userInputProvider,
                   data,
-                  null);
+                  null,null);
             }),
         Selector<UserInputProvider, Set<String>>(
             selector: (_, userInputProvider) => userInputProvider.lettersFound,
@@ -47,7 +50,9 @@ class UserInputArea extends StatelessWidget {
                   ["a", "s", "d", "f", "g", "h", "j", "k", "k", "l"],
                   userInputProvider,
                   data,
-                  null);
+                  null,
+                null
+              );
             }),
         Selector<UserInputProvider, Set<String>>(
             selector: (_, userInputProvider) => userInputProvider.lettersFound,
@@ -57,6 +62,7 @@ class UserInputArea extends StatelessWidget {
                 userInputProvider,
                 data,
                 dictionary,
+                poem,
               );
             },
             shouldRebuild: (before, after) {
@@ -93,7 +99,7 @@ class UserInputArea extends StatelessWidget {
   }
 
   Widget keyBoard(List<String> letters, UserInputProvider userInputProvider,
-      Set<String> lettersFound, Dictionary? dictionary) {
+      Set<String> lettersFound, Dictionary? dictionary, Poem? poem) {
     Widget lettersContainer = Container(
         color: Colors.black38,
         child: Row(
@@ -101,7 +107,7 @@ class UserInputArea extends StatelessWidget {
           children: letters
               .map((e) => Expanded(
                   child: stylizeLetter(
-                      e, userInputProvider, lettersFound, dictionary)))
+                      e, userInputProvider, lettersFound, dictionary, poem)))
               .toList(growable: false),
         ));
     List<Widget> rowChildren = [
@@ -118,7 +124,7 @@ class UserInputArea extends StatelessWidget {
   }
 
   Widget stylizeLetter(String letter, UserInputProvider userInputProvider,
-      Set<String> lettersFound, Dictionary? dictionary) {
+      Set<String> lettersFound, Dictionary? dictionary, Poem? poem) {
     if (letter == "Enter") {
       return IconButton(
         padding: const EdgeInsets.all(1),
@@ -127,7 +133,7 @@ class UserInputArea extends StatelessWidget {
           color: Colors.white,
         ),
         onPressed: () {
-          userInputProvider.commit(dictionary!);
+          userInputProvider.commit(dictionary!, poem!.todaysWord);
         },
         color: Colors.black45,
       );

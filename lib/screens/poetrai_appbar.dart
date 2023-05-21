@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../models/dictionary_reader.dart';
+import '../data_layer/dictionary.dart';
 
 class PoetrAIAppBar extends StatefulWidget with PreferredSizeWidget {
+  const PoetrAIAppBar({super.key});
+
   @override
   State<StatefulWidget> createState() => _PoetrAIAppBar();
 

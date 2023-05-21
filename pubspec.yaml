@@ -51,6 +51,7 @@ dependencies:
   share_plus: ^6.3.0
   timezone: ^0.9.1
   archive: ^3.3.7
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -78,7 +79,9 @@ flutter:
   assets:
      - assets/images/maskable_icon_x96.png
      - assets/images/Poweredby_100px-White_VertLogo.png
-     - assets/dictionary/en.gzip
+     - assets/dictionary/en.bzip2
+     - assets/poems/poems.bzip2
+     - packages/timezone/data/latest.tzf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

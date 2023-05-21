@@ -1,77 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:poetrai/data_layer/poem.dart';
+import 'package:poetrai/models/user_input_provider.dart';
+import 'package:provider/provider.dart';
 
 class PoemDisplay extends StatelessWidget {
   const PoemDisplay({Key? key}) : super(key: key);
-  static final List<String> poem = [
-    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
-    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
-    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
-    "Lorem ipsum dolor sit amet, consectetur.\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet..\nPhasellus rhoncus lectus at lorem laoreet.",
-  ];
 
   @override
   Widget build(BuildContext context) {
-    return verseHolders();
+    Poem poem = Provider.of<Poem>(context, listen: true);
+    return Selector<UserInputProvider, int>(
+        selector: (_, userInputProvider) => userInputProvider.attemptNumber,
+        builder: (context, data, child) => verseHolders(poem, data));
   }
 
-  Widget verseHolders() {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+  List<Widget> columnChildren(Poem poem, int attemptNumber) {
+    switch (attemptNumber) {
+      case 0:
+        return [
+          wrapVerseInText(
+            poem.poemPart1,
+          ),
+        ];
+      case 1:
+        return [
           // const SizedBox(
           //   width: 40,
           // ),
-          verseRow(
-            poem[0],
+          wrapVerseInText(
+            poem.poemPart1,
           ),
           const SizedBox(
             height: 10,
             child: Text(""),
           ),
-          verseRow(
-            poem[1],
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          verseRow(
-            poem[2],
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          verseRow(
-            poem[3],
-          ),
+          wrapVerseInText(
+            poem.poemPart2,
+          )
+        ];
+      case 2:
+        return [
           // const SizedBox(
           //   width: 40,
           // ),
-        ]);
+          wrapVerseInText(
+            poem.poemPart1,
+          ),
+          const SizedBox(
+            height: 10,
+            child: Text(""),
+          ),
+          wrapVerseInText(
+            poem.poemPart2,
+          ),
+          const SizedBox(
+            height: 10,
+            child: Text(""),
+          ),
+          wrapVerseInText(
+            poem.poemPart3,
+          ),
+        ];
+      default:
+        return [
+          // const SizedBox(
+          //   width: 40,
+          // ),
+          wrapVerseInText(
+            poem.poemPart1,
+          ),
+          const SizedBox(
+            height: 10,
+            child: Text(""),
+          ),
+          wrapVerseInText(
+            poem.poemPart2,
+          ),
+          const SizedBox(
+            height: 10,
+            child: Text(""),
+          ),
+          wrapVerseInText(
+            poem.poemPart3,
+          ),
+          const SizedBox(
+            height: 10,
+            child: Text(""),
+          ),
+          wrapVerseInText(
+            poem.poemPart4,
+          ),
+        ];
+    }
   }
 
-  Widget verseRow(String verse) {
+  Widget verseHolders(Poem poem, int attemptNumber) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Flexible(flex: 1, child: SizedBox()),
-        Flexible(
-          flex: 8,
-          child: wrapVerseInText(verse),
-        ),
-        const Flexible(flex: 1, child: SizedBox()),
+        const Expanded(flex: 1, child: SizedBox()),
+        Expanded(
+            flex: 7,
+            child: Column(
+                // mainAxisSize: MainAxisSize.min,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: columnChildren(poem, attemptNumber))),
+        const Expanded(flex: 1, child: SizedBox()),
       ],
     );
   }
 
   Widget wrapVerseInText(String verse) {
-    return Text(verse,
-        style: GoogleFonts.architectsDaughter(fontWeight: FontWeight.w700));
+    return Text(verse, style: const TextStyle(fontWeight: FontWeight.w700), textAlign: TextAlign.center,);
   }
 }
