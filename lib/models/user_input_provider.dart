@@ -67,11 +67,16 @@ class UserInputProvider extends ChangeNotifier {
     }
   }
 
-  void commit(Dictionary dictionary, String todaysWord) {
+  void commit(Dictionary dictionary, String todaysWord, String previousWord) {
     if (_gameOver) {
       printIfDebug("Game over - disable commit");
       return;
     }
+    if (todaysWord == previousWord) {
+      printIfDebug("Today's word == previous word => user already played");
+      return;
+    }
+
     if (_currentUserInput.isEmpty) {
       notifyCurrentWordIsEmpty();
     } else if (!dictionary.containsWord(_currentUserInput)) {
@@ -89,7 +94,6 @@ class UserInputProvider extends ChangeNotifier {
     if (_currentUserInput == todaysWord) {
       printIfDebug("currentWord = todaysWord");
       _hasWon = true;
-      _gameOver = true;
     } else {
       Set<String> intersection = _currentUserInput
           .split('')
@@ -97,9 +101,9 @@ class UserInputProvider extends ChangeNotifier {
           .intersection(todaysWord.split('').toSet());
       intersection.addAll(_lettersFound);
       _lettersFound = intersection;
-      _gameOver = _attemptNumber == Constants.attemptNumbers;
     }
     _attemptNumber += 1;
+    _gameOver = _hasWon || _attemptNumber == Constants.attemptNumbers;
 
     printIfDebug("lettersFound = $lettersFound");
     notifyListeners();

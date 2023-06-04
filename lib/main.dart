@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => UserInputProvider()),
           FutureProvider<Dictionary>(create: (_) => DictionaryReader().readDictionary(), initialData: Dictionary([""])),
-          ChangeNotifierProvider(create: (_) => CookieData()),
+          StreamProvider<CookieData>(create: (_) => CookieDataReader().readData(), initialData: CookieData(),),
           FutureProvider<Poem>(create: (_) => PoemReader().readPoem(), initialData: Poem.empty()),
         ],
         child: const Home(),
@@ -101,10 +101,7 @@ class _HomeState extends State<Home> {
               height: 40,
             ),
             const AttemptNumber(),
-            const PoemDisplay(),
-            const SizedBox(
-              height: 40,
-            ),
+            const Expanded(child: PoemDisplay()),
             GameOverDialog(
               // analytics: widget.analytics,
               // observer: widget.observer,

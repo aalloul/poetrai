@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:poetrai/data_layer/cookie_data.dart';
+import 'package:provider/provider.dart';
 
-import '../data_layer/dictionary.dart';
 
 class PoetrAIAppBar extends StatefulWidget with PreferredSizeWidget {
   const PoetrAIAppBar({super.key});
@@ -16,9 +17,13 @@ class PoetrAIAppBar extends StatefulWidget with PreferredSizeWidget {
 class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: title(),
-      actions: [showStatsButton(context), extendRulesButton(context)],
+    return Consumer<CookieData>(
+      builder: (context, cookieData, child) {
+        return AppBar(
+          title: title(),
+          actions: [showStatsButton(context, cookieData), extendRulesButton(context)],
+        );
+      },
     );
   }
 
@@ -35,11 +40,11 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     );
   }
 
-  Widget showStatsButton(BuildContext context) {
+  Widget showStatsButton(BuildContext context, CookieData cookieData) {
     return MaterialButton(
       elevation: 3,
       onPressed: () {
-        DictionaryReader().readDictionary();
+        showSnackBar(cookieData);
       },
       padding: EdgeInsets.zero,
       child: const Icon(Icons.bar_chart, color: Colors.white),
@@ -52,6 +57,25 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       onPressed: () {},
       padding: EdgeInsets.zero,
       child: const Icon(Icons.question_mark, color: Colors.white),
+    );
+  }
+
+  void showSnackBar(CookieData cookieData) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+            side: const BorderSide(width: 1, color: Colors.grey)),
+        content: Text(
+          "Total Games ${cookieData.totalGames}, word ${cookieData.lastGameWord.word}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontWeight: FontWeight.w500, fontSize: 20.0, color: Colors.white),
+        ),
+        width: 200,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 1),
+      ),
     );
   }
 }

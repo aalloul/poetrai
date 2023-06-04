@@ -33,6 +33,10 @@ String todayAsString() {
   } else {
     formattedDate += "${todayDate.month}";
   }
-  formattedDate += "${todayDate.day}";
+  if (todayDate.day < 10) {
+    formattedDate += "0${todayDate.day}";
+  } else {
+    formattedDate += "${todayDate.day}";
+  }
   return formattedDate;
 }

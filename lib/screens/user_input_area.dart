@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:poetrai/data_layer/cookie_data.dart';
 import '../data_layer/dictionary.dart';
 import 'package:poetrai/utils.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,9 @@ class UserInputArea extends StatelessWidget {
         Provider.of<UserInputProvider>(context, listen: false);
     Dictionary dictionary = Provider.of<Dictionary>(context);
     Poem poem = Provider.of<Poem>(context);
-
     return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Selector<UserInputProvider, String>(
@@ -34,36 +34,37 @@ class UserInputArea extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Selector<UserInputProvider, Set<String>>(
-            selector: (_, userInputProvider) => userInputProvider.lettersFound,
+        Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
+            selector: (_, userInputProvider, cookieData) => Tuple2(
+                userInputProvider.lettersFound, cookieData.lastGameWord.word),
             builder: (context, data, child) {
               return keyBoard(
-                  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-                  userInputProvider,
-                  data,
-                  null,null);
-            }),
-        Selector<UserInputProvider, Set<String>>(
-            selector: (_, userInputProvider) => userInputProvider.lettersFound,
-            builder: (context, data, child) {
-              return keyBoard(
-                  ["a", "s", "d", "f", "g", "h", "j", "k", "k", "l"],
-                  userInputProvider,
-                  data,
-                  null,
-                null
-              );
-            }),
-        Selector<UserInputProvider, Set<String>>(
-            selector: (_, userInputProvider) => userInputProvider.lettersFound,
-            builder: (context, data, child) {
-              return keyBoard(
-                ["Enter", "z", "x", "c", "v", "b", "n", "m", "Delete"],
+                ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
                 userInputProvider,
-                data,
-                dictionary,
+                data.item1,
+                null,
                 poem,
+                data.item2,
               );
+            }),
+        Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
+            selector: (_, userInputProvider, cookieData) => Tuple2(
+                userInputProvider.lettersFound, cookieData.lastGameWord.word),
+            builder: (context, data, child) {
+              return keyBoard(["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+                  userInputProvider, data.item1, null, poem, data.item2);
+            }),
+        Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
+            selector: (_, userInputProvider, cookieData) => Tuple2(
+                userInputProvider.lettersFound, cookieData.lastGameWord.word),
+            builder: (context, data, child) {
+              return keyBoard(
+                  ["Enter", "z", "x", "c", "v", "b", "n", "m", "Delete"],
+                  userInputProvider,
+                  data.item1,
+                  dictionary,
+                  poem,
+                  data.item2);
             },
             shouldRebuild: (before, after) {
               return before != after;
@@ -98,22 +99,28 @@ class UserInputArea extends StatelessWidget {
     );
   }
 
-  Widget keyBoard(List<String> letters, UserInputProvider userInputProvider,
-      Set<String> lettersFound, Dictionary? dictionary, Poem? poem) {
+  Widget keyBoard(
+      List<String> letters,
+      UserInputProvider userInputProvider,
+      Set<String> lettersFound,
+      Dictionary? dictionary,
+      Poem? poem,
+      String previousWord) {
     Widget lettersContainer = Container(
         color: Colors.black38,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: letters
               .map((e) => Expanded(
                   child: stylizeLetter(
-                      e, userInputProvider, lettersFound, dictionary, poem)))
+                      e, userInputProvider, lettersFound, dictionary, poem, previousWord)))
               .toList(growable: false),
         ));
     List<Widget> rowChildren = [
-      const Expanded(flex: 1, child: SizedBox()),
-      Expanded(flex: 5, child: lettersContainer),
-      const Expanded(flex: 1, child: SizedBox())
+      // lettersContainer
+      // const Expanded(flex: 1, child: SizedBox()),
+      Expanded(flex: 8, child: lettersContainer),
+      // const Expanded(flex: 1, child: SizedBox())
     ];
 
     return Row(
@@ -124,7 +131,7 @@ class UserInputArea extends StatelessWidget {
   }
 
   Widget stylizeLetter(String letter, UserInputProvider userInputProvider,
-      Set<String> lettersFound, Dictionary? dictionary, Poem? poem) {
+      Set<String> lettersFound, Dictionary? dictionary, Poem? poem, String previousWord) {
     if (letter == "Enter") {
       return IconButton(
         padding: const EdgeInsets.all(1),
@@ -133,7 +140,7 @@ class UserInputArea extends StatelessWidget {
           color: Colors.white,
         ),
         onPressed: () {
-          userInputProvider.commit(dictionary!, poem!.todaysWord);
+          userInputProvider.commit(dictionary!, poem!.todaysWord, previousWord);
         },
         color: Colors.black45,
       );
@@ -151,7 +158,7 @@ class UserInputArea extends StatelessWidget {
       return Padding(
           padding: const EdgeInsets.all(2),
           child: TextButton(
-            onPressed: () => userInputProvider.addLetterUserInput(letter),
+            onPressed: () => (previousWord != poem?.todaysWord) ? userInputProvider.addLetterUserInput(letter) : null,
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: lettersFound.contains(letter)
@@ -175,7 +182,8 @@ class UserInputArea extends StatelessWidget {
   Widget dialogPlaceHolder(bool wordDoesNotExist, bool currentWordIsEmpty,
       BuildContext context, UserInputProvider userInputProvider) {
     String text = "";
-    printIfDebug("dialogPlaceHolder - currentWordIsEmpty=$currentWordIsEmpty - wordDoesNotExist=$wordDoesNotExist");
+    printIfDebug(
+        "dialogPlaceHolder - currentWordIsEmpty=$currentWordIsEmpty - wordDoesNotExist=$wordDoesNotExist");
     if (currentWordIsEmpty) {
       text = "Type a word";
     } else if (wordDoesNotExist) {
@@ -204,7 +212,8 @@ class UserInputArea extends StatelessWidget {
         animationDuration: const Duration(milliseconds: 800));
   }
 
-  getNativeSnackBar(String text, BuildContext context, UserInputProvider userInputProvider) {
+  getNativeSnackBar(
+      String text, BuildContext context, UserInputProvider userInputProvider) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         shape: RoundedRectangleBorder(

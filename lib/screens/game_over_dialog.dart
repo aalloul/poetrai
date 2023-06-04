@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:poetrai/data_layer/cookie_data.dart';
+import 'package:poetrai/data_layer/poem.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -17,15 +19,18 @@ class GameOverDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserInputProvider userInputProvider = Provider.of<UserInputProvider>(context, listen: false);
+    CookieData cookieData = Provider.of<CookieData>(context, listen: false);
 
+    Poem poem = Provider.of<Poem>(context, listen: true);
     return Selector<UserInputProvider, Tuple2<bool, bool>>(
       selector: (_, userInputProvider) => Tuple2(userInputProvider.gameOver, userInputProvider.hasWon),
-      builder: (context, data, child) => emptyContainer(context, data.item1, data.item2, userInputProvider),
+      builder: (context, data, child) => emptyContainer(context, data.item1, data.item2, userInputProvider, cookieData, poem),
     );
   }
 
-  Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon, UserInputProvider userInputProvider) {
+  Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon, UserInputProvider userInputProvider, CookieData cookieData, Poem poem) {
     if (gameOver) {
+      updateCookieData(cookieData, poem.todaysWord, userInputProvider.attemptNumber, userInputProvider.hasWon, userInputProvider.boxesForShareMessage);
       SchedulerBinding.instance.addPostFrameCallback((_) {
         showGameOverDialog(context, userInputProvider, hasWon);
       });
