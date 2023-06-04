@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:timezone/browser.dart' as tz;
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
@@ -39,4 +40,17 @@ String todayAsString() {
     formattedDate += "${todayDate.day}";
   }
   return formattedDate;
+}
+
+RoundedRectangleBorder getRoundedRectangle() {
+  return RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(3.0),
+  );
+}
+
+class ChartData {
+  String barTitle;
+  int barValue;
+
+  ChartData(this.barTitle, this.barValue);
 }

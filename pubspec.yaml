@@ -34,7 +34,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  intl: ^0.17.0
+  intl: ^0.18.0
   intl_utils: ^2.8.1
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,6 +52,9 @@ dependencies:
   timezone: ^0.9.1
   archive: ^3.3.7
   shared_preferences: ^2.0.15
+  syncfusion_flutter_charts: ^21.2.8
+  url_launcher: ^6.1.11
+  streaming_shared_preferences: ^2.0.0
 
 dev_dependencies:
   flutter_test:

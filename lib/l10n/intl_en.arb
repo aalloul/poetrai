@@ -16,5 +16,14 @@
       }
     }
   },
-  "giveItATry": "You can try here: https://poetr.ai"
+  "giveItATry": "You can try here: https://poetr.ai",
+  "game_stats": "Statistics",
+  "comeback_tomorrow": "Come back tomorrow to try again!",
+  "share_feedback": "Give us your feedback",
+  "games_played": "Played",
+  "games_won": "Won",
+  "detailed_stats": "Guess distribution",
+  "win_rate": "% Won",
+  "games_lost": "Lost",
+  "avg_number_attempts": "Avg attempts"
 }

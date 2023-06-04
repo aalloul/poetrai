@@ -30,7 +30,7 @@ class GameOverDialog extends StatelessWidget {
 
   Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon, UserInputProvider userInputProvider, CookieData cookieData, Poem poem) {
     if (gameOver) {
-      updateCookieData(cookieData, poem.todaysWord, userInputProvider.attemptNumber, userInputProvider.hasWon, userInputProvider.boxesForShareMessage);
+      cookieData.update(poem.todaysWord, userInputProvider.attemptNumber, userInputProvider.hasWon, userInputProvider.boxesForShareMessage);
       SchedulerBinding.instance.addPostFrameCallback((_) {
         showGameOverDialog(context, userInputProvider, hasWon);
       });

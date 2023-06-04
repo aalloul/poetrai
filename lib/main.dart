@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 import '../data_layer/dictionary.dart';
 import 'package:poetrai/screens/attempt_number.dart';
@@ -22,14 +23,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var byteData = await rootBundle.load('packages/timezone/data/latest.tzf');
   initializeDatabase(byteData.buffer.asUint8List());
-  runApp(const MyApp());
+  final preferences = await StreamingSharedPreferences.instance;
+
+  runApp(MyApp(preferences));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp(this.streamingSharedPreferences, {super.key});
+  final StreamingSharedPreferences streamingSharedPreferences;
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -65,7 +70,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => UserInputProvider()),
           FutureProvider<Dictionary>(create: (_) => DictionaryReader().readDictionary(), initialData: Dictionary([""])),
-          StreamProvider<CookieData>(create: (_) => CookieDataReader().readData(), initialData: CookieData(),),
+          Provider<CookieData>(
+            create: (_) => CookieData(streamingSharedPreferences),
+          ),
           FutureProvider<Poem>(create: (_) => PoemReader().readPoem(), initialData: Poem.empty()),
         ],
         child: const Home(),
@@ -91,7 +98,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const PoetrAIAppBar(),
+        appBar: PoetrAIAppBar(isWebMobile),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -116,11 +123,6 @@ class _HomeState extends State<Home> {
       kIsWeb &&
           (defaultTargetPlatform == TargetPlatform.iOS ||
               defaultTargetPlatform == TargetPlatform.android);
-
-// bool get isWebMobile =>
-//     kIsWeb &&
-//         (defaultTargetPlatform == TargetPlatform.iOS ||
-//             defaultTargetPlatform == TargetPlatform.android);
 
 // showFirstTimeLoad(BuildContext context) {
 //   CookieData()

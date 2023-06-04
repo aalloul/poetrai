@@ -16,7 +16,7 @@ class PoemDisplay extends StatelessWidget {
         selector: (_, userInputProvider, cookieData) => Tuple3(
             userInputProvider.attemptNumber,
             userInputProvider.gameOver,
-            cookieData.lastGameWord.word == poem.todaysWord),
+            cookieData.lastGameWord().word == poem.todaysWord),
         builder: (context, data, child) =>
             verseHolders(poem, data.item1, data.item2, data.item3));
   }
