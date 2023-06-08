@@ -80,7 +80,7 @@ flutter:
   generate: true # Localization
 
   assets:
-     - assets/images/maskable_icon_x96.png
+     - assets/images/poetai-logo-64x64.png
      - assets/images/Poweredby_100px-White_VertLogo.png
      - assets/dictionary/en.bzip2
      - assets/poems/poems.bzip2

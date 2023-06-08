@@ -29,15 +29,11 @@ class Poem {
     return Poem(jsonDecode(inputString)[todayAsString()]);
   }
 
-  String get todaysWord => inputJson['todayWord'];
-
-  String get poemPart1 => inputJson['poemPart1'];
-
-  String get poemPart2 => inputJson['poemPart2'];
-
-  String get poemPart3 => inputJson['poemPart3'];
-
-  String get poemPart4 => inputJson['poemPart4'];
+  String get todaysWord => inputJson['todayWord'] ?? "";
+  String get poemPart1 => inputJson['part1'] ?? "";
+  String get poemPart2 => inputJson['part2'] ?? "";
+  String get poemPart3 => inputJson['part3'] ?? "";
+  String get poemPart4 => inputJson['part4'] ?? "";
 
   factory Poem.empty() {
     return Poem({

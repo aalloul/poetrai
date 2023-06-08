@@ -44,8 +44,8 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset(
-          "assets/images/maskable_icon_x96.png",
-          scale: 1.5,
+          "assets/images/poetai-logo-64x64.png",
+          scale: 6.25,
         ),
         kDebugMode ? const Text("PoetrAI v0.0.1 - ") : const Text("PoetrAI")
       ],
