@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -11,9 +12,9 @@ import '../data_layer/poem.dart';
 import '../generated/l10n.dart';
 import '../utils.dart';
 
-
 class PoetrAIAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool isWebMobile;
+
   const PoetrAIAppBar(this.isWebMobile, {super.key});
 
   @override
@@ -24,55 +25,57 @@ class PoetrAIAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _PoetrAIAppBar extends State<PoetrAIAppBar> {
-
   @override
   Widget build(BuildContext context) {
     CookieData cookieData = Provider.of<CookieData>(context, listen: true);
-
+    RenderObject.debugCheckingIntrinsics = true;
     return Selector<Poem, String>(
-      selector: (_, poem) => poem.todaysWord,
-      builder: (context, data, child) => AppBar(
-        title: title(),
-        actions: [showStatsButton(context, cookieData, data), extendRulesButton(context)],
-      )
-    );
-
+        selector: (_, poem) => poem.todaysWord,
+        builder: (context, data, child) => AppBar(
+              title: title(),
+              actions: [
+                showStatsButton(context, cookieData, data),
+                extendRulesButton(context)
+              ],
+            ));
   }
 
   Widget title() {
-    return Row(
+    return const Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(
-          "assets/images/poetai-logo-64x64.png",
-          scale: 6.25,
-        ),
-        kDebugMode ? const Text("PoetrAI v0.0.1 - ") : const Text("PoetrAI")
+        // Image.asset(
+        //   "assets/images/poetai-logo-64x64.png",
+        //   scale: 6.25,
+        // ),
+        kDebugMode ? Text("PoetAI v0.0.1 - ") : Text("PoetAI")
       ],
     );
   }
 
-  Widget showStatsButton(BuildContext context, CookieData cookieData, String todayWord) {
-    printIfDebug("cookieData cookieData.lastGameWord.word = ${cookieData.lastGameWord().word}");
-    printIfDebug("cookieData cookieData.totalGames = ${cookieData.totalGames.getValue()}");
+  Widget showStatsButton(
+      BuildContext context, CookieData cookieData, String todayWord) {
+    printIfDebug(
+        "cookieData cookieData.lastGameWord.word = ${cookieData.lastGameWord().word}");
+    printIfDebug(
+        "cookieData cookieData.totalGames = ${cookieData.totalGames.getValue()}");
 
     return MaterialButton(
       elevation: 3,
       onPressed: () {
         showDialog(
             context: context,
-            builder: (_) => showGameStats(_, cookieData, todayWord)
-        );
+            builder: (_) => showGameStats(_, cookieData, todayWord));
       },
       padding: EdgeInsets.zero,
       child: const Icon(Icons.bar_chart, color: Colors.white),
     );
   }
 
-  AlertDialog showGameStats(BuildContext context, CookieData cookieData, String todayWord) {
+  AlertDialog showGameStats(
+      BuildContext context, CookieData cookieData, String todayWord) {
     // widget.analytics.logEvent(name: "ShowGameStats");
-    bool comebackTomorrow =
-        cookieData.lastGameWord().word == todayWord;
+    bool comebackTomorrow = cookieData.lastGameWord().word == todayWord;
     return AlertDialog(
       insetPadding: const EdgeInsets.symmetric(
         horizontal: 50.0,
@@ -117,12 +120,12 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        keyMetricCard(
-            S.of(context).games_played, cookieData.totalGames.getValue().toString()),
-        keyMetricCard(
-            S.of(context).games_won, cookieData.successfulGames.getValue().toString()),
-        keyMetricCard(
-            S.of(context).games_lost, cookieData.unsuccessfulGames().toString()),
+        keyMetricCard(S.of(context).games_played,
+            cookieData.totalGames.getValue().toString()),
+        keyMetricCard(S.of(context).games_won,
+            cookieData.successfulGames.getValue().toString()),
+        keyMetricCard(S.of(context).games_lost,
+            cookieData.unsuccessfulGames().toString()),
         keyMetricCard(S.of(context).avg_number_attempts,
             cookieData.averageAttemptsToWin().toString()),
       ],
@@ -132,31 +135,31 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   Widget keyMetricCard(String title, String value) {
     return Expanded(
         child: Card(
-          elevation: 1,
-          shape: getRoundedRectangle(),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 1.0),
-                    child: Text(value,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0,
-                            color: Colors.black))),
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 1.0, 3.0, 8.0),
-                    child: Text(title,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0,
-                            color: Colors.black)))
-              ]),
-        ));
+      elevation: 1,
+      shape: getRoundedRectangle(),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 1.0),
+                child: Text(value,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.0,
+                        color: Colors.black))),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(3.0, 1.0, 3.0, 8.0),
+                child: Text(title,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.0,
+                        color: Colors.black)))
+          ]),
+    ));
   }
 
   Widget statChart(BuildContext context, CookieData cookieData) {
@@ -179,8 +182,9 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
               dataSource: userStatsForChart(cookieData),
               xValueMapper: (ChartData data, _) => data.barTitle,
               yValueMapper: (ChartData data, _) => data.barValue,
-              pointColorMapper: (ChartData data, _) =>
-              data.barTitle == "X" ? Constants.imperfectGuess : Constants.perfectGuess,
+              pointColorMapper: (ChartData data, _) => data.barTitle == "X"
+                  ? Constants.imperfectGuess
+                  : Constants.perfectGuess,
               // color: perfectGuess,
               dataLabelSettings: const DataLabelSettings(isVisible: true))
         ]);
@@ -216,15 +220,6 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     if (!await launchUrl(feedbackUrl)) {
       throw 'Could not launch $feedbackUrl';
     }
-  }
-
-  Widget extendRulesButton(BuildContext context) {
-    return MaterialButton(
-      elevation: 3.0,
-      onPressed: () {},
-      padding: EdgeInsets.zero,
-      child: const Icon(Icons.question_mark, color: Colors.white),
-    );
   }
 
   Widget getShareButton(String boxesForMessage) {
@@ -267,11 +262,41 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   String shareTextMessage(BuildContext context, String boxesforMessage) {
-    String out =
-    S.of(context).share_text(todayInFullWords());
+    String out = S.of(context).share_text(todayInFullWords());
     out += "\n$boxesforMessage";
     out += "\n${S.of(context).giveItATry}";
     return out;
+  }
+
+  Widget extendRulesButton(BuildContext context) {
+    return MaterialButton(
+      elevation: 3.0,
+      onPressed: () {
+        showDialog(
+            context: context, builder: (_) => showGameHelpDialog(context));
+      },
+      padding: EdgeInsets.zero,
+      child: const Icon(Icons.question_mark, color: Colors.white),
+    );
+  }
+
+  showGameHelpDialog(BuildContext context) {
+    // widget.analytics.logEvent(name: "OpenHelp");
+
+    AlertDialog alertDialog = AlertDialog(
+      title: null,
+      content: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints.tightForFinite(width: 540),
+              child: Html(data: S.of(context).detailed_rules)
+          )
+      ),
+      actions: const [
+        // reusableButtons.closeGameRulesButton(S.of(context).back_to_game)
+      ],
+    );
+    return alertDialog;
   }
 
 }
