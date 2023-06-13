@@ -8,7 +8,7 @@
   "back_to_game": "Back to game",
   "welcome": "Welcome to PetrAI",
   "share_button": "Share",
-  "share_text": "Will you be able to guess today's word based on an AI-generated poem? You have 5 tries! Here ere my results:",
+  "share_text": "Every day, An AI writes a poem about a specific word. Can you guess today's in 5 attempts? Here ere my results:",
   "@share_text": {
     "placeholders": {
       "todaysDate": {

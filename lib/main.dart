@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
+import 'package:poetrai/firebase_options.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 import '../data_layer/dictionary.dart';
@@ -22,6 +24,9 @@ import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   var byteData = await rootBundle.load('packages/timezone/data/latest.tzf');
   initializeDatabase(byteData.buffer.asUint8List());
   final preferences = await StreamingSharedPreferences.instance;
