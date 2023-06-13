@@ -22,6 +22,12 @@ import 'constants.dart';
 import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
 
+// TODO add boxes for the share thing
+// TODO enable analytics
+// TODO French translations
+// TODO try to better style the Poem
+// TODO get a nice logo
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

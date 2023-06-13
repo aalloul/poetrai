@@ -93,7 +93,7 @@ class UserInputArea extends StatelessWidget {
       children: [
         Text(
           userStringInput,
-          style: const TextStyle(fontSize: 14, color: Colors.black),
+          style: const TextStyle(fontSize: 16, color: Colors.black),
         )
       ],
     );
@@ -165,7 +165,7 @@ class UserInputArea extends StatelessWidget {
                   ? Colors.orange
                   : Colors.black45,
             ),
-            child: Text(letter, style: const TextStyle(color: Colors.white)),
+            child: Text(letter, style: const TextStyle(color: Colors.white, fontSize: 18)),
           ));
     }
   }

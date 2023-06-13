@@ -125,7 +125,7 @@ class PoemDisplay extends StatelessWidget {
   Widget wrapVerseInText(String verse) {
     return Text(
       verse,
-      style: const TextStyle(fontWeight: FontWeight.w200, fontStyle: FontStyle.italic, fontSize: 16),
+      style: const TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic, fontSize: 18),
       textAlign: TextAlign.center,
     );
   }
