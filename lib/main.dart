@@ -16,6 +16,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'constants.dart';
 import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
 
@@ -43,9 +44,10 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      title: 'PoetrAI - Guess today\'s word based on AI-generated poetry',
+      title: 'PoetAI - We asked AI to write poems!',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+          colorSchemeSeed: Constants.primaryColor,
+          brightness: Brightness.light
       ),
       supportedLocales: const [
         Locale('en', ''),
