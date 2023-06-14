@@ -33,6 +33,9 @@ class UserInputProvider extends ChangeNotifier {
 
   int get attemptNumber => _attemptNumber;
 
+  List<String> _listWords = <String>[];
+  List<String> get listWords => _listWords;
+
   UserInputProvider();
 
   void addLetterUserInput(String letter) {
@@ -81,6 +84,7 @@ class UserInputProvider extends ChangeNotifier {
       printIfDebug("word $_currentUserInput does not exists");
       notifyWordDoesNotExist();
     } else {
+      _listWords.add(_currentUserInput);
       compareToCurrentWord(todaysWord);
       _currentUserInput = "";
     }

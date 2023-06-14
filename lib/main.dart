@@ -26,7 +26,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 // TODO French translations
 // TODO try to better style the Poem
 // TODO get a nice logo
-// TODO show previous attemptsp by user
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

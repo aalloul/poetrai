@@ -25,15 +25,13 @@ class UserInputArea extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Selector<UserInputProvider, String>(
-            selector: (_, userInputProvider) =>
+        Selector<UserInputProvider, Tuple2<String, List<String>>>(
+            selector: (_, userInputProvider) => Tuple2(
                 userInputProvider.currentUserInput,
+                userInputProvider.listWords),
             builder: (context, data, child) {
-              return currentUserInputDisplay(data);
+              return currentUserInputDisplay(data.item1, data.item2);
             }),
-        const SizedBox(
-          height: 10,
-        ),
         Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
             selector: (_, userInputProvider, cookieData) => Tuple2(
                 userInputProvider.lettersFound, cookieData.lastGameWord().word),
@@ -85,18 +83,37 @@ class UserInputArea extends StatelessWidget {
     );
   }
 
-  Widget currentUserInputDisplay(String userStringInput) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
+  Widget currentUserInputDisplay(
+      String userStringInput, List<String> listWords) {
+    List<Widget> children = [
+      Container(margin: const EdgeInsets.fromLTRB(0, 0, 10, 0))
+    ];
+    for (String word in listWords) {
+      children.addAll([
         Text(
-          userStringInput,
-          style: const TextStyle(fontSize: 16, color: Colors.black),
-        )
-      ],
-    );
+          word,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16, color: Colors.white),
+        ),
+        Container(margin: const EdgeInsets.fromLTRB(0, 0, 10, 0))
+      ]);
+    }
+    if (userStringInput.isNotEmpty) {
+      children.add(Text(
+        userStringInput,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 16, color: Colors.black),
+      ));
+    }
+
+    return Container(
+        color: Colors.grey,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children,
+        ));
   }
 
   Widget keyBoard(
@@ -112,8 +129,8 @@ class UserInputArea extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: letters
               .map((e) => Expanded(
-                  child: stylizeLetter(
-                      e, userInputProvider, lettersFound, dictionary, poem, previousWord)))
+                  child: stylizeLetter(e, userInputProvider, lettersFound,
+                      dictionary, poem, previousWord)))
               .toList(growable: false),
         ));
     List<Widget> rowChildren = [
@@ -130,8 +147,13 @@ class UserInputArea extends StatelessWidget {
         children: rowChildren);
   }
 
-  Widget stylizeLetter(String letter, UserInputProvider userInputProvider,
-      Set<String> lettersFound, Dictionary? dictionary, Poem? poem, String previousWord) {
+  Widget stylizeLetter(
+      String letter,
+      UserInputProvider userInputProvider,
+      Set<String> lettersFound,
+      Dictionary? dictionary,
+      Poem? poem,
+      String previousWord) {
     if (letter == "Enter") {
       return IconButton(
         padding: const EdgeInsets.all(1),
@@ -158,14 +180,17 @@ class UserInputArea extends StatelessWidget {
       return Padding(
           padding: const EdgeInsets.all(2),
           child: TextButton(
-            onPressed: () => (previousWord != poem?.todaysWord) ? userInputProvider.addLetterUserInput(letter) : null,
+            onPressed: () => (previousWord != poem?.todaysWord)
+                ? userInputProvider.addLetterUserInput(letter)
+                : null,
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: lettersFound.contains(letter)
                   ? Colors.orange
                   : Colors.black45,
             ),
-            child: Text(letter, style: const TextStyle(color: Colors.white, fontSize: 18)),
+            child: Text(letter,
+                style: const TextStyle(color: Colors.white, fontSize: 18)),
           ));
     }
   }
