@@ -110,7 +110,7 @@ class PoemDisplay extends StatelessWidget {
       children: [
         const Expanded(flex: 1, child: SizedBox()),
         Expanded(
-            flex: 7,
+            flex: 10,
             child: Column(
                 // mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
