@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,8 +16,11 @@ import '../utils.dart';
 
 class PoetrAIAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool isWebMobile;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
-  const PoetrAIAppBar(this.isWebMobile, {super.key});
+  const PoetrAIAppBar(this.isWebMobile, this.analytics, this.observer,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() => _PoetrAIAppBar();
@@ -55,8 +59,8 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     );
   }
 
-  Widget showStatsButton(
-      BuildContext context, CookieData cookieData, String todayWord, String poemPart1) {
+  Widget showStatsButton(BuildContext context, CookieData cookieData,
+      String todayWord, String poemPart1) {
     printIfDebug(
         "cookieData cookieData.lastGameWord.word = ${cookieData.lastGameWord().word}");
     printIfDebug(
@@ -74,9 +78,9 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     );
   }
 
-  AlertDialog showGameStats(
-      BuildContext context, CookieData cookieData, String todayWord, String poemPart1) {
-    // widget.analytics.logEvent(name: "ShowGameStats");
+  AlertDialog showGameStats(BuildContext context, CookieData cookieData,
+      String todayWord, String poemPart1) {
+    widget.analytics.logEvent(name: "ShowGameStats");
     bool comebackTomorrow = cookieData.lastGameWord().word == todayWord;
     return AlertDialog(
       insetPadding: const EdgeInsets.symmetric(
@@ -108,10 +112,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            getFeedbackButton(context),
-            getShareButton(poemPart1)
-          ],
+          children: [getFeedbackButton(context), getShareButton(poemPart1)],
         )
       ],
     );
@@ -236,7 +237,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   void _onShare(BuildContext context, String poemPart1) async {
-    // widget.analytics.logEvent(name: "Share app");
+    widget.analytics.logEvent(name: "Share app");
 
     if (widget.isWebMobile) {
       final box = context.findRenderObject() as RenderBox?;
@@ -280,22 +281,19 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   showGameHelpDialog(BuildContext context) {
-    // widget.analytics.logEvent(name: "OpenHelp");
+    widget.analytics.logEvent(name: "OpenHelp");
 
     AlertDialog alertDialog = AlertDialog(
       title: null,
       content: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: ConstrainedBox(
-            constraints: const BoxConstraints.tightForFinite(width: 540),
-              child: Html(data: S.of(context).detailed_rules)
-          )
-      ),
+              constraints: const BoxConstraints.tightForFinite(width: 540),
+              child: Html(data: S.of(context).detailed_rules))),
       actions: const [
         // reusableButtons.closeGameRulesButton(S.of(context).back_to_game)
       ],
     );
     return alertDialog;
   }
-
 }

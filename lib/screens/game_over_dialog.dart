@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,12 @@ import '../generated/l10n.dart';
 
 class GameOverDialog extends StatelessWidget {
   final bool isWebMobile;
-  const GameOverDialog({Key? key, required this.isWebMobile}) : super(key: key);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  const GameOverDialog(
+      {Key? key, required this.isWebMobile, required this.analytics, required this.observer,})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +27,15 @@ class GameOverDialog extends StatelessWidget {
 
     Poem poem = Provider.of<Poem>(context, listen: true);
     return Selector<UserInputProvider, Tuple3<bool, bool, int>>(
-      selector: (_, userInputProvider) => Tuple3(userInputProvider.gameOver, userInputProvider.hasWon, userInputProvider.attemptNumber),
-      builder: (context, data, child) => emptyContainer(context, data.item1, data.item2, data.item3, cookieData, poem),
+      selector: (_, userInputProvider) => Tuple3(userInputProvider.gameOver,
+          userInputProvider.hasWon, userInputProvider.attemptNumber),
+      builder: (context, data, child) => emptyContainer(
+          context, data.item1, data.item2, data.item3, cookieData, poem),
     );
   }
 
-  Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon, int attemptNumber, CookieData cookieData, Poem poem) {
+  Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon,
+      int attemptNumber, CookieData cookieData, Poem poem) {
     if (gameOver) {
       cookieData.update(poem.todaysWord, attemptNumber, hasWon);
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -36,7 +45,8 @@ class GameOverDialog extends StatelessWidget {
     return Container();
   }
 
-  showGameOverDialog(BuildContext context, int attemptNumber, bool hasWon, Poem poem) {
+  showGameOverDialog(
+      BuildContext context, int attemptNumber, bool hasWon, Poem poem) {
     return showDialog(
         context: context,
         builder: (_) => FutureBuilder<String>(
@@ -44,15 +54,17 @@ class GameOverDialog extends StatelessWidget {
             builder:
                 (BuildContext buildContext, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
-                // analytics.logEvent(
-                //     name:
-                //     hasWon ? "Successful_Game" : "Failed_Game",
-                //     parameters: {
-                //       "gamePlayed": userInputProvider.totalGamesPlayed
-                //     });
+                analytics.logEvent(
+                    name:
+                    hasWon ? "Successful_Game" : "Failed_Game",
+                    );
                 return alertDialogForGameOver(
-                    hasWon ? S.of(context).congratulations : S.of(context).too_bad,
-                    hasWon ? S.of(context).correct_word : S.of(context).incorrect_word,
+                    hasWon
+                        ? S.of(context).congratulations
+                        : S.of(context).too_bad,
+                    hasWon
+                        ? S.of(context).correct_word
+                        : S.of(context).incorrect_word,
                     getShareButton(context, poem),
                     snapshot.data!);
               } else {
@@ -89,9 +101,9 @@ class GameOverDialog extends StatelessWidget {
               children: [
                 Expanded(
                     child: Image.network(
-                      giphyURL,
-                      alignment: Alignment.center,
-                    )),
+                  giphyURL,
+                  alignment: Alignment.center,
+                )),
                 RotatedBox(
                     quarterTurns: 1,
                     child: Image.asset(
@@ -132,15 +144,14 @@ class GameOverDialog extends StatelessWidget {
   }
 
   void _onShare(BuildContext context, Poem poem) async {
-    // analytics.logEvent(name: "Share app");
+    analytics.logEvent(name: "Share app");
 
     if (isWebMobile) {
       final box = context.findRenderObject() as RenderBox?;
       await Share.share(shareTextMessage(context, poem),
           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     } else {
-      Clipboard.setData(
-          ClipboardData(text: shareTextMessage(context, poem)));
+      Clipboard.setData(ClipboardData(text: shareTextMessage(context, poem)));
       showDialog(
           context: context,
           builder: (cont) {
@@ -162,5 +173,4 @@ class GameOverDialog extends StatelessWidget {
   String shareTextMessage(BuildContext context, Poem poem) {
     return S.of(context).share_text(poem.poemPart1);
   }
-
 }

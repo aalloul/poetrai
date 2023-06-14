@@ -21,11 +21,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'constants.dart';
 import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
-// TODO enable analytics
 // TODO French translations
 // TODO try to better style the Poem
 // TODO get a nice logo
+// TODO show previous attemptsp by user
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,60 +42,70 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp(this.streamingSharedPreferences, {super.key});
+
   final StreamingSharedPreferences streamingSharedPreferences;
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
+    analytics.setAnalyticsCollectionEnabled(Uri.base.host == "poetai.app");
 
     return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      title: 'PoetAI - We asked AI to write poems!',
-      theme: ThemeData(
-          colorSchemeSeed: Constants.primaryColor,
-          brightness: Brightness.light
-      ),
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('fr', ''),
-      ],
-      builder: (context, widget) =>
-          ResponsiveWrapper.builder(
-            BouncingScrollWrapper.builder(context, widget!),
-            maxWidth: 1200,
-            minWidth: 450,
-            defaultScale: true,
-            breakpoints: [
-              const ResponsiveBreakpoint.resize(450, name: MOBILE),
-              const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-              const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-              const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-              const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-            ],
-            background: Container(color: const Color(0xFFF5F5F5)),
-          ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => UserInputProvider()),
-          FutureProvider<Dictionary>(create: (_) => DictionaryReader().readDictionary(), initialData: Dictionary([""])),
-          Provider<CookieData>(
-            create: (_) => CookieData(streamingSharedPreferences),
-          ),
-          FutureProvider<Poem>(create: (_) => PoemReader().readPoem(), initialData: Poem.empty()),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        child: const Home(),
-      )
-    );
+        title: 'PoetAI - We asked AI to write poems!',
+        theme: ThemeData(
+            colorSchemeSeed: Constants.primaryColor,
+            brightness: Brightness.light),
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('fr', ''),
+        ],
+        navigatorObservers: <NavigatorObserver>[observer],
+        builder: (context, widget) => ResponsiveWrapper.builder(
+              BouncingScrollWrapper.builder(context, widget!),
+              maxWidth: 1200,
+              minWidth: 450,
+              defaultScale: true,
+              breakpoints: [
+                const ResponsiveBreakpoint.resize(450, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+                const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+                const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+              ],
+              background: Container(color: const Color(0xFFF5F5F5)),
+            ),
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => UserInputProvider()),
+            FutureProvider<Dictionary>(
+                create: (_) => DictionaryReader().readDictionary(),
+                initialData: Dictionary([""])),
+            Provider<CookieData>(
+              create: (_) => CookieData(streamingSharedPreferences),
+            ),
+            FutureProvider<Poem>(
+                create: (_) => PoemReader().readPoem(),
+                initialData: Poem.empty()),
+          ],
+          child: Home(analytics: analytics, observer: observer),
+        ));
   }
 }
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.analytics, required this.observer});
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   State<Home> createState() => _HomeState();
@@ -110,7 +121,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PoetrAIAppBar(isWebMobile),
+        appBar: PoetrAIAppBar(isWebMobile, widget.analytics, widget.observer),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -122,8 +133,8 @@ class _HomeState extends State<Home> {
             const AttemptNumber(),
             const Expanded(child: PoemDisplay()),
             GameOverDialog(
-              // analytics: widget.analytics,
-              // observer: widget.observer,
+              analytics: widget.analytics,
+              observer: widget.observer,
               isWebMobile: isWebMobile,
             ),
             const UserInputArea(),
@@ -133,8 +144,8 @@ class _HomeState extends State<Home> {
 
   bool get isWebMobile =>
       kIsWeb &&
-          (defaultTargetPlatform == TargetPlatform.iOS ||
-              defaultTargetPlatform == TargetPlatform.android);
+      (defaultTargetPlatform == TargetPlatform.iOS ||
+          defaultTargetPlatform == TargetPlatform.android);
 
 // showFirstTimeLoad(BuildContext context) {
 //   CookieData()
