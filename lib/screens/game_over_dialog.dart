@@ -10,7 +10,6 @@ import 'package:tuple/tuple.dart';
 
 import '../data_layer/giphy_api.dart';
 import '../generated/l10n.dart';
-import '../utils.dart';
 
 class GameOverDialog extends StatelessWidget {
   final bool isWebMobile;
@@ -18,31 +17,30 @@ class GameOverDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserInputProvider userInputProvider = Provider.of<UserInputProvider>(context, listen: false);
     CookieData cookieData = Provider.of<CookieData>(context, listen: false);
 
     Poem poem = Provider.of<Poem>(context, listen: true);
-    return Selector<UserInputProvider, Tuple2<bool, bool>>(
-      selector: (_, userInputProvider) => Tuple2(userInputProvider.gameOver, userInputProvider.hasWon),
-      builder: (context, data, child) => emptyContainer(context, data.item1, data.item2, userInputProvider, cookieData, poem),
+    return Selector<UserInputProvider, Tuple3<bool, bool, int>>(
+      selector: (_, userInputProvider) => Tuple3(userInputProvider.gameOver, userInputProvider.hasWon, userInputProvider.attemptNumber),
+      builder: (context, data, child) => emptyContainer(context, data.item1, data.item2, data.item3, cookieData, poem),
     );
   }
 
-  Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon, UserInputProvider userInputProvider, CookieData cookieData, Poem poem) {
+  Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon, int attemptNumber, CookieData cookieData, Poem poem) {
     if (gameOver) {
-      cookieData.update(poem.todaysWord, userInputProvider.attemptNumber, userInputProvider.hasWon, userInputProvider.boxesForShareMessage);
+      cookieData.update(poem.todaysWord, attemptNumber, hasWon);
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        showGameOverDialog(context, userInputProvider, hasWon);
+        showGameOverDialog(context, attemptNumber, hasWon, poem);
       });
     }
     return Container();
   }
 
-  showGameOverDialog(BuildContext context, UserInputProvider userInputProvider, bool hasWon) {
+  showGameOverDialog(BuildContext context, int attemptNumber, bool hasWon, Poem poem) {
     return showDialog(
         context: context,
         builder: (_) => FutureBuilder<String>(
-            future: getGiphy(userInputProvider.attemptNumber),
+            future: getGiphy(attemptNumber),
             builder:
                 (BuildContext buildContext, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
@@ -55,15 +53,14 @@ class GameOverDialog extends StatelessWidget {
                 return alertDialogForGameOver(
                     hasWon ? S.of(context).congratulations : S.of(context).too_bad,
                     hasWon ? S.of(context).correct_word : S.of(context).incorrect_word,
-                    getShareButton(
-                        context, userInputProvider.boxesForShareMessage),
+                    getShareButton(context, poem),
                     snapshot.data!);
               } else {
-                return Column(
+                return const Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [CircularProgressIndicator()]);
+                    children: [CircularProgressIndicator()]);
               }
             }));
   }
@@ -123,27 +120,27 @@ class GameOverDialog extends StatelessWidget {
     return GiphyAPI.getGIF(value).then((value) => value.gifURL());
   }
 
-  Widget getShareButton(BuildContext context, String boxesForShareMessage) {
+  Widget getShareButton(BuildContext context, Poem poem) {
     return Builder(
       builder: (BuildContext context) {
         return ElevatedButton(
-          onPressed: () => _onShare(context, boxesForShareMessage),
+          onPressed: () => _onShare(context, poem),
           child: Text(S.of(context).share_button),
         );
       },
     );
   }
 
-  void _onShare(BuildContext context, String boxesForShareMessage) async {
+  void _onShare(BuildContext context, Poem poem) async {
     // analytics.logEvent(name: "Share app");
 
     if (isWebMobile) {
       final box = context.findRenderObject() as RenderBox?;
-      await Share.share(shareTextMessage(context, boxesForShareMessage),
+      await Share.share(shareTextMessage(context, poem),
           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     } else {
       Clipboard.setData(
-          ClipboardData(text: shareTextMessage(context, boxesForShareMessage)));
+          ClipboardData(text: shareTextMessage(context, poem)));
       showDialog(
           context: context,
           builder: (cont) {
@@ -162,11 +159,8 @@ class GameOverDialog extends StatelessWidget {
     }
   }
 
-  String shareTextMessage(BuildContext context, String boxesForShareMessage) {
-    String out = S.of(context).share_text(todayInFullWords());
-    out += "\n$boxesForShareMessage";
-    out += "\n${S.of(context).giveItATry}";
-    return out;
+  String shareTextMessage(BuildContext context, Poem poem) {
+    return S.of(context).share_text(poem.poemPart1);
   }
 
 }

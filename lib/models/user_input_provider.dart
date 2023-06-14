@@ -35,8 +35,6 @@ class UserInputProvider extends ChangeNotifier {
 
   UserInputProvider();
 
-  String get boxesForShareMessage => "";
-
   void addLetterUserInput(String letter) {
     if (_gameOver) {
       printIfDebug("Game is finished - disable editing");

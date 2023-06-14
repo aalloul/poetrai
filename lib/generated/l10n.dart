@@ -130,13 +130,13 @@ class S {
     );
   }
 
-  /// `Every day, An AI writes a poem about a specific word. Can you guess today's in 5 attempts? Here ere my results:`
-  String share_text(String todaysDate) {
+  /// `Can you guess what this poem is about:\n\n{poem}\n\nTry it out at https://poetai.app\n`
+  String share_text(String poem) {
     return Intl.message(
-      'Every day, An AI writes a poem about a specific word. Can you guess today\'s in 5 attempts? Here ere my results:',
+      'Can you guess what this poem is about:\n\n$poem\n\nTry it out at https://poetai.app\n',
       name: 'share_text',
       desc: '',
-      args: [todaysDate],
+      args: [poem],
     );
   }
 

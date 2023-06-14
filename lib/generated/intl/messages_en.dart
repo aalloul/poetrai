@@ -20,8 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(todaysDate) =>
-      "Every day, An AI writes a poem about a specific word. Can you guess today\'s in 5 attempts? Here ere my results:";
+  static String m0(poem) =>
+      "Can you guess what this poem is about:\n\n${poem}\n\nTry it out at https://poetai.app\n";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{

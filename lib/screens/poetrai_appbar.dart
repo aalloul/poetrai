@@ -6,6 +6,7 @@ import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
 import '../data_layer/poem.dart';
@@ -29,12 +30,13 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   Widget build(BuildContext context) {
     CookieData cookieData = Provider.of<CookieData>(context, listen: true);
     RenderObject.debugCheckingIntrinsics = true;
-    return Selector<Poem, String>(
-        selector: (_, poem) => poem.todaysWord,
+
+    return Selector<Poem, Tuple2<String, String>>(
+        selector: (_, poem) => Tuple2(poem.todaysWord, poem.poemPart1),
         builder: (context, data, child) => AppBar(
               title: title(),
               actions: [
-                showStatsButton(context, cookieData, data),
+                showStatsButton(context, cookieData, data.item1, data.item2),
                 extendRulesButton(context)
               ],
             ));
@@ -54,7 +56,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   Widget showStatsButton(
-      BuildContext context, CookieData cookieData, String todayWord) {
+      BuildContext context, CookieData cookieData, String todayWord, String poemPart1) {
     printIfDebug(
         "cookieData cookieData.lastGameWord.word = ${cookieData.lastGameWord().word}");
     printIfDebug(
@@ -65,7 +67,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       onPressed: () {
         showDialog(
             context: context,
-            builder: (_) => showGameStats(_, cookieData, todayWord));
+            builder: (_) => showGameStats(_, cookieData, todayWord, poemPart1));
       },
       padding: EdgeInsets.zero,
       child: const Icon(Icons.bar_chart, color: Colors.white),
@@ -73,7 +75,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   AlertDialog showGameStats(
-      BuildContext context, CookieData cookieData, String todayWord) {
+      BuildContext context, CookieData cookieData, String todayWord, String poemPart1) {
     // widget.analytics.logEvent(name: "ShowGameStats");
     bool comebackTomorrow = cookieData.lastGameWord().word == todayWord;
     return AlertDialog(
@@ -108,7 +110,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             getFeedbackButton(context),
-            getShareButton(cookieData.boxesForShareMessage.getValue())
+            getShareButton(poemPart1)
           ],
         )
       ],
@@ -222,27 +224,27 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     }
   }
 
-  Widget getShareButton(String boxesForMessage) {
+  Widget getShareButton(String poemPart1) {
     return Builder(
       builder: (BuildContext context) {
         return ElevatedButton(
-          onPressed: () => _onShare(context, boxesForMessage),
+          onPressed: () => _onShare(context, poemPart1),
           child: Text(S.of(context).share_button),
         );
       },
     );
   }
 
-  void _onShare(BuildContext context, String boxesForMessage) async {
+  void _onShare(BuildContext context, String poemPart1) async {
     // widget.analytics.logEvent(name: "Share app");
 
     if (widget.isWebMobile) {
       final box = context.findRenderObject() as RenderBox?;
-      await Share.share(shareTextMessage(context, boxesForMessage),
+      await Share.share(shareTextMessage(context, poemPart1),
           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     } else {
       Clipboard.setData(
-          ClipboardData(text: shareTextMessage(context, boxesForMessage)));
+          ClipboardData(text: shareTextMessage(context, poemPart1)));
       showDialog(
           context: context,
           builder: (cont) {
@@ -261,11 +263,8 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     }
   }
 
-  String shareTextMessage(BuildContext context, String boxesforMessage) {
-    String out = S.of(context).share_text(todayInFullWords());
-    out += "\n$boxesforMessage";
-    out += "\n${S.of(context).giveItATry}";
-    return out;
+  String shareTextMessage(BuildContext context, String poemPart1) {
+    return S.of(context).share_text(poemPart1);
   }
 
   Widget extendRulesButton(BuildContext context) {
