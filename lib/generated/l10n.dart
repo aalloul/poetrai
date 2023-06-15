@@ -110,10 +110,10 @@ class S {
     );
   }
 
-  /// `Welcome to PetrAI`
+  /// `Welcome to PoetAI`
   String get welcome {
     return Intl.message(
-      'Welcome to PetrAI',
+      'Welcome to PoetAI',
       name: 'welcome',
       desc: '',
       args: [],
@@ -137,16 +137,6 @@ class S {
       name: 'share_text',
       desc: '',
       args: [poem],
-    );
-  }
-
-  /// `You can try here: https://poetr.ai`
-  String get giveItATry {
-    return Intl.message(
-      'You can try here: https://poetr.ai',
-      name: 'giveItATry',
-      desc: '',
-      args: [],
     );
   }
 
@@ -240,11 +230,31 @@ class S {
     );
   }
 
-  /// `<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>The word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature's enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letter E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>`
+  /// `<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let's assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature's enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>`
   String get detailed_rules {
     return Intl.message(
-      '<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>The word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature\'s enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letter E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>',
+      '<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let\'s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature\'s enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>',
       name: 'detailed_rules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type a word`
+  String get type_a_word {
+    return Intl.message(
+      'Type a word',
+      name: 'type_a_word',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not in word list`
+  String get not_in_word_list {
+    return Intl.message(
+      'Not in word list',
+      name: 'not_in_word_list',
       desc: '',
       args: [],
     );

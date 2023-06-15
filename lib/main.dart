@@ -18,12 +18,10 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'constants.dart';
 import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-// TODO French translations
 // TODO try to better style the Poem
 // TODO get a nice logo
 
@@ -61,8 +59,8 @@ class MyApp extends StatelessWidget {
         ],
         title: 'PoetAI - We asked AI to write poems!',
         theme: ThemeData(
-            colorSchemeSeed: Constants.primaryColor,
-            brightness: Brightness.light),
+            colorSchemeSeed: Colors.black,
+            brightness: Brightness.dark),
         supportedLocales: const [
           Locale('en', ''),
           Locale('fr', ''),

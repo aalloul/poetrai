@@ -87,7 +87,7 @@ class GameOverDialog extends StatelessWidget {
         title,
         textAlign: TextAlign.center,
         style: const TextStyle(
-            fontWeight: FontWeight.w500, fontSize: 24.0, color: Colors.black),
+            fontWeight: FontWeight.w500, fontSize: 24.0, color: Colors.white),
       ),
       content: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -35,24 +35,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "correct_word": MessageLookupByLibrary.simpleMessage(
             "You found the right word. Come back tomorrow for a new game :)"),
         "detailed_rules": MessageLookupByLibrary.simpleMessage(
-            "<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>The word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature\'s enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letter E on the keyboard will be colored in <span style=\"color: orange\">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>"),
+            "<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let\'s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature\'s enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style=\"color: orange\">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>"),
         "detailed_stats":
             MessageLookupByLibrary.simpleMessage("Guess distribution"),
         "game_stats": MessageLookupByLibrary.simpleMessage("Statistics"),
         "games_lost": MessageLookupByLibrary.simpleMessage("Lost"),
         "games_played": MessageLookupByLibrary.simpleMessage("Played"),
         "games_won": MessageLookupByLibrary.simpleMessage("Won"),
-        "giveItATry": MessageLookupByLibrary.simpleMessage(
-            "You can try here: https://poetr.ai"),
         "incorrect_word": MessageLookupByLibrary.simpleMessage(
             "You didn’t find the right word this time. Try again tomorrow!"),
+        "not_in_word_list":
+            MessageLookupByLibrary.simpleMessage("Not in word list"),
         "open_game": MessageLookupByLibrary.simpleMessage("Start the game"),
         "share_button": MessageLookupByLibrary.simpleMessage("Share"),
         "share_feedback":
             MessageLookupByLibrary.simpleMessage("Give us your feedback"),
         "share_text": m0,
         "too_bad": MessageLookupByLibrary.simpleMessage("Too bad !"),
-        "welcome": MessageLookupByLibrary.simpleMessage("Welcome to PetrAI"),
+        "type_a_word": MessageLookupByLibrary.simpleMessage("Type a word"),
+        "welcome": MessageLookupByLibrary.simpleMessage("Welcome to PoetAI"),
         "win_rate": MessageLookupByLibrary.simpleMessage("% Won")
       };
 }

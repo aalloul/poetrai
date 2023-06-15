@@ -38,6 +38,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     return Selector<Poem, Tuple2<String, String>>(
         selector: (_, poem) => Tuple2(poem.todaysWord, poem.poemPart1),
         builder: (context, data, child) => AppBar(
+              backgroundColor: Constants.primaryColor,
               title: title(),
               actions: [
                 showStatsButton(context, cookieData, data.item1, data.item2),
@@ -92,7 +93,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
           style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 24.0,
-              color: Colors.black)),
+              color: Colors.white)),
       content: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -138,6 +139,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   Widget keyMetricCard(String title, String value) {
     return Expanded(
         child: Card(
+      color: Colors.transparent,
       elevation: 1,
       shape: getRoundedRectangle(),
       child: Column(
@@ -151,7 +153,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
                     style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0,
-                        color: Colors.black))),
+                        color: Colors.white))),
             Padding(
                 padding: const EdgeInsets.fromLTRB(3.0, 1.0, 3.0, 8.0),
                 child: Text(title,
@@ -160,7 +162,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
                     style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0,
-                        color: Colors.black)))
+                        color: Colors.white)))
           ]),
     ));
   }
@@ -172,7 +174,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
             textStyle: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18.0,
-                color: Colors.black)),
+                color: Colors.white)),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(
           isVisible: false,
@@ -214,7 +216,15 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
 
   Widget getFeedbackButton(BuildContext context) {
     return TextButton(
-        onPressed: _launchUrl, child: Text(S.of(context).share_feedback));
+      onPressed: _launchUrl,
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+      child: Text(
+        S.of(context).share_feedback,
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
   }
 
   Future<void> _launchUrl() async {
@@ -229,8 +239,14 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     return Builder(
       builder: (BuildContext context) {
         return ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStatePropertyAll<Color>(Constants.primaryColor)),
           onPressed: () => _onShare(context, poemPart1),
-          child: Text(S.of(context).share_button),
+          child: Text(
+            S.of(context).share_button,
+            style: const TextStyle(color: Colors.white),
+          ),
         );
       },
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
+import '../constants.dart';
 import '../data_layer/dictionary.dart';
 import 'package:poetrai/utils.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:tuple/tuple.dart';
 
 import '../data_layer/poem.dart';
+import '../generated/l10n.dart';
 
 class UserInputArea extends StatelessWidget {
   const UserInputArea({Key? key}) : super(key: key);
@@ -93,7 +95,7 @@ class UserInputArea extends StatelessWidget {
         Text(
           word,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, color: Colors.white),
+          style: const TextStyle(fontSize: 20, color: Colors.white),
         ),
         Container(margin: const EdgeInsets.fromLTRB(0, 0, 10, 0))
       ]);
@@ -102,7 +104,7 @@ class UserInputArea extends StatelessWidget {
       children.add(Text(
         userStringInput,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 16, color: Colors.black),
+        style: const TextStyle(fontSize: 20, color: Colors.black),
       ));
     }
 
@@ -210,9 +212,9 @@ class UserInputArea extends StatelessWidget {
     printIfDebug(
         "dialogPlaceHolder - currentWordIsEmpty=$currentWordIsEmpty - wordDoesNotExist=$wordDoesNotExist");
     if (currentWordIsEmpty) {
-      text = "Type a word";
+      text = S.of(context).type_a_word;
     } else if (wordDoesNotExist) {
-      text = "Not in word list";
+      text = S.of(context).not_in_word_list;
     }
     if (wordDoesNotExist || currentWordIsEmpty) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -244,6 +246,7 @@ class UserInputArea extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
             side: const BorderSide(width: 1, color: Colors.grey)),
+        backgroundColor: Constants.imperfectGuess,
         content: Text(
           text,
           textAlign: TextAlign.center,

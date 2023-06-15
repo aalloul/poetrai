@@ -1,3 +1,31 @@
 {
-  "@@locale": "fr"
+  "@@locale": "fr",
+  "congratulations": "Félicitations !",
+  "too_bad": "Dommage !",
+  "incorrect_word": "Tu n'as pas trouvé le bon mot cette fois-ci. Essaie encore demain",
+  "correct_word": "Tu as trouvé le bon mot! Reviens demain pour une nouvelle partie :)",
+  "open_game": "Commencer",
+  "back_to_game": "Revenir au jeu",
+  "welcome": "Bienvenu à PoetAI",
+  "share_button": "Partager",
+  "share_text": "Peux-tu deviner le sujet de ce poême:\n\n{poem}\n\nEssaie ici https://poetai.app \n",
+  "@share_text": {
+    "placeholders": {
+      "poem": {
+        "type": "String"
+      }
+    }
+  },
+  "game_stats": "Statistiques",
+  "comeback_tomorrow": "Reviens demain pour un nouveau jeu!",
+  "share_feedback": "Donne-nous ton avis",
+  "games_played": "Joués",
+  "games_won": "Gagnés",
+  "detailed_stats": "Distribution de tes jeux",
+  "win_rate": "% Gagnés",
+  "games_lost": "Perdus",
+  "avg_number_attempts": "Coups moyen",
+  "detailed_rules": "<div><h3>C'est quoi PoetAI?</h3><p>On a demandé à une IA d'écrire un poême à partir d'un mot. Le jeu est de deviner ce mot en 5 essais ou moins!</p\n><h3>Comment jouer? </h3>\n    <p>Imaginons que le mot à deviner est serpent. Le jeu commence en affichant la 1ère partie du poême</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature's enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>Si tu tapes souris (par exemple), les letters S et R sur le clavier s'afficheront en <span style=\"color: orange\">orange</span> et la partie suivante du poême s'affichiera.</p>\n    <p>Tu as 4 autres essais pour deviner le bon mot!</p>\n    <p>Chaque jour à minuit CEST, un nouveau poême est publié et tu pourras retenter ta chance</p>\n</div>",
+  "type_a_word": "Tape un mot",
+  "not_in_word_list": "Pas dans la liste des mots"
 }
