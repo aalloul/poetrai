@@ -2,8 +2,22 @@
   "@@locale": "en",
   "congratulations": "Congratulations !",
   "too_bad": "Too bad !",
-  "incorrect_word": "You didn’t find the right word this time. Try again tomorrow!",
-  "correct_word": "You found the right word. Come back tomorrow for a new game :)",
+  "incorrect_word": "The word of today was {word} but worry not, tomorrow you'll get to try again with a new poem!",
+  "@incorrect_word": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "correct_word": "Indeed, the word today was {word}! Come back tomorrow for a new game :)",
+  "@correct_word": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
   "open_game": "Start the game",
   "back_to_game": "Back to game",
   "welcome": "Welcome to PoetAI",

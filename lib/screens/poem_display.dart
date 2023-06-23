@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:poetrai/data_layer/poem.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-
 
 class PoemDisplay extends StatelessWidget {
   const PoemDisplay({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class PoemDisplay extends StatelessWidget {
             verseHolders(poem, data.item1, data.item2, data.item3));
   }
 
-  List<Widget> columnChildren(Poem poem, int attemptNumber) {
+  List<Widget> columnChildren(Poem poem, int attemptNumber, bool hasFinished) {
     switch (attemptNumber) {
       case 0:
         return [
@@ -70,9 +70,12 @@ class PoemDisplay extends StatelessWidget {
         ];
       default:
         return [
-          // const SizedBox(
-          //   width: 40,
-          // ),
+          hasFinished ? displayPoemTitle(poem.todaysWord) : Container(),
+          hasFinished
+              ? const SizedBox(
+                  height: 60,
+                )
+              : Container(),
           wrapVerseInText(
             poem.poemPart1,
           ),
@@ -115,8 +118,10 @@ class PoemDisplay extends StatelessWidget {
                 // mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,
-                children: columnChildren(poem,
-                    (gameOver || isSameWordAsPrevious) ? 99 : attemptNumber))),
+                children: columnChildren(
+                    poem,
+                    (gameOver || isSameWordAsPrevious) ? 99 : attemptNumber,
+                    (gameOver || isSameWordAsPrevious)))),
         const Expanded(flex: 1, child: SizedBox()),
       ],
     );
@@ -125,7 +130,21 @@ class PoemDisplay extends StatelessWidget {
   Widget wrapVerseInText(String verse) {
     return Text(
       verse,
-      style: const TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic, fontSize: 18),
+      style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontStyle: FontStyle.italic,
+          fontSize: 18),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget displayPoemTitle(String title) {
+    return Text(
+      toBeginningOfSentenceCase(title)!,
+      style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontStyle: FontStyle.italic,
+          fontSize: 18),
       textAlign: TextAlign.center,
     );
   }

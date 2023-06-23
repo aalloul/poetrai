@@ -70,23 +70,23 @@ class S {
     );
   }
 
-  /// `You didn’t find the right word this time. Try again tomorrow!`
-  String get incorrect_word {
+  /// `The word of today was {word} but worry not, tomorrow you'll get to try again with a new poem!`
+  String incorrect_word(String word) {
     return Intl.message(
-      'You didn’t find the right word this time. Try again tomorrow!',
+      'The word of today was $word but worry not, tomorrow you\'ll get to try again with a new poem!',
       name: 'incorrect_word',
       desc: '',
-      args: [],
+      args: [word],
     );
   }
 
-  /// `You found the right word. Come back tomorrow for a new game :)`
-  String get correct_word {
+  /// `Indeed, the word today was {word}! Come back tomorrow for a new game :)`
+  String correct_word(String word) {
     return Intl.message(
-      'You found the right word. Come back tomorrow for a new game :)',
+      'Indeed, the word today was $word! Come back tomorrow for a new game :)',
       name: 'correct_word',
       desc: '',
-      args: [],
+      args: [word],
     );
   }
 

@@ -51,7 +51,7 @@ class UserInputArea extends StatelessWidget {
             selector: (_, userInputProvider, cookieData) => Tuple2(
                 userInputProvider.lettersFound, cookieData.lastGameWord().word),
             builder: (context, data, child) {
-              return keyBoard(["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+              return keyBoard(["a", "s", "d", "f", "g", "h", "j", "k", "l", "Delete"],
                   userInputProvider, data.item1, null, poem, data.item2);
             }),
         Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
@@ -59,7 +59,7 @@ class UserInputArea extends StatelessWidget {
                 userInputProvider.lettersFound, cookieData.lastGameWord().word),
             builder: (context, data, child) {
               return keyBoard(
-                  ["Enter", "z", "x", "c", "v", "b", "n", "m", "Delete"],
+                  ["z", "x", "c", "v", "b", "n", "m", "Enter"],
                   userInputProvider,
                   data.item1,
                   dictionary,

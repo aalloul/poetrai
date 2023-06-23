@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tuple/tuple.dart';
 
+import '../constants.dart';
 import '../data_layer/giphy_api.dart';
 import '../generated/l10n.dart';
 
@@ -17,9 +18,12 @@ class GameOverDialog extends StatelessWidget {
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
-  const GameOverDialog(
-      {Key? key, required this.isWebMobile, required this.analytics, required this.observer,})
-      : super(key: key);
+  const GameOverDialog({
+    Key? key,
+    required this.isWebMobile,
+    required this.analytics,
+    required this.observer,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +59,15 @@ class GameOverDialog extends StatelessWidget {
                 (BuildContext buildContext, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
                 analytics.logEvent(
-                    name:
-                    hasWon ? "Successful_Game" : "Failed_Game",
-                    );
+                  name: hasWon ? "Successful_Game" : "Failed_Game",
+                );
                 return alertDialogForGameOver(
                     hasWon
                         ? S.of(context).congratulations
                         : S.of(context).too_bad,
                     hasWon
-                        ? S.of(context).correct_word
-                        : S.of(context).incorrect_word,
+                        ? S.of(context).correct_word(poem.todaysWord)
+                        : S.of(context).incorrect_word(poem.todaysWord),
                     getShareButton(context, poem),
                     snapshot.data!);
               } else {
@@ -136,9 +139,14 @@ class GameOverDialog extends StatelessWidget {
     return Builder(
       builder: (BuildContext context) {
         return ElevatedButton(
-          onPressed: () => _onShare(context, poem),
-          child: Text(S.of(context).share_button),
-        );
+            onPressed: () => _onShare(context, poem),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+            child: Text(
+              S.of(context).share_button,
+              style: const TextStyle(color: Colors.white),
+            ));
       },
     );
   }
