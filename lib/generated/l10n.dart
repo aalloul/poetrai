@@ -259,6 +259,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Guess today's word`
+  String get guess_todays_word {
+    return Intl.message(
+      'Guess today\'s word',
+      name: 'guess_todays_word',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nous avons demandé à une IA d'êcrire un poême à partir d'un mot. Sauras-tu deviner ce mot?`
+  String get short_description {
+    return Intl.message(
+      'Nous avons demandé à une IA d\'êcrire un poême à partir d\'un mot. Sauras-tu deviner ce mot?',
+      name: 'short_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let's go!`
+  String get lets_go {
+    return Intl.message(
+      'Let\'s go!',
+      name: 'lets_go',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

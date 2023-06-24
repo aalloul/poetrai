@@ -23,6 +23,7 @@ class Dictionary {
 
   bool containsWord(String word) {
     printIfDebug("Check if $word exists");
+    printIfDebug("exists = ${wordsList.contains(word)}");
     return wordsList.contains(word);
   }
 

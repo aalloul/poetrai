@@ -32,7 +32,8 @@ class PoetrAIAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   @override
   Widget build(BuildContext context) {
-    CookieData cookieData = Provider.of<CookieData>(context, listen: true);
+    printIfDebug("building AppBar");
+    CookieData cookieData = Provider.of<CookieData>(context, listen: false);
     RenderObject.debugCheckingIntrinsics = true;
 
     return Selector<Poem, Tuple2<String, String>>(
@@ -44,7 +45,11 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
                 showStatsButton(context, cookieData, data.item1, data.item2),
                 extendRulesButton(context)
               ],
-            ));
+            ),
+      shouldRebuild: (before, after) {
+          return before.item1 != after.item1;
+      },
+    );
   }
 
   Widget title() {

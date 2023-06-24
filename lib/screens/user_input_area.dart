@@ -209,8 +209,8 @@ class UserInputArea extends StatelessWidget {
   Widget dialogPlaceHolder(bool wordDoesNotExist, bool currentWordIsEmpty,
       BuildContext context, UserInputProvider userInputProvider) {
     String text = "";
-    printIfDebug(
-        "dialogPlaceHolder - currentWordIsEmpty=$currentWordIsEmpty - wordDoesNotExist=$wordDoesNotExist");
+    // printIfDebug(
+    //     "dialogPlaceHolder - currentWordIsEmpty=$currentWordIsEmpty - wordDoesNotExist=$wordDoesNotExist");
     if (currentWordIsEmpty) {
       text = S.of(context).type_a_word;
     } else if (wordDoesNotExist) {

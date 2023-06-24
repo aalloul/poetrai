@@ -41,5 +41,8 @@
   "avg_number_attempts": "Avg attempts",
   "detailed_rules": "<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let's assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature's enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style=\"color: orange\">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>",
   "type_a_word": "Type a word",
-  "not_in_word_list": "Not in word list"
+  "not_in_word_list": "Not in word list",
+  "guess_todays_word": "Guess today's word",
+  "short_description": "Nous avons demandé à une IA d'êcrire un poême à partir d'un mot. Sauras-tu deviner ce mot?",
+  "lets_go": "Let's go!"
 }

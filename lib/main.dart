@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:poetrai/firebase_options.dart';
+import 'package:poetrai/utils.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 import '../data_layer/dictionary.dart';
@@ -22,8 +23,6 @@ import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-// TODO try to better style the Poem
-// TODO get a nice logo
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -117,6 +116,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    printIfDebug("build homepage");
     return Scaffold(
         appBar: PoetrAIAppBar(isWebMobile, widget.analytics, widget.observer),
         body: Column(
@@ -144,61 +144,4 @@ class _HomeState extends State<Home> {
       (defaultTargetPlatform == TargetPlatform.iOS ||
           defaultTargetPlatform == TargetPlatform.android);
 
-// showFirstTimeLoad(BuildContext context) {
-//   CookieData()
-//       .readData()
-//       .then((value) {
-//     if (value.totalGames == 0) {
-//       AlertDialog alertDialog = AlertDialog(
-//         title: Text(S
-//             .of(context)
-//             .subtitle, textAlign: TextAlign.center),
-//         content: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             Text(S
-//                 .of(context)
-//                 .read_help),
-//             Text(S
-//                 .of(context)
-//                 .read_help_2),
-//             Text(S
-//                 .of(context)
-//                 .read_help_3)
-//           ],
-//         ),
-//         actions: [
-//           closeGameRulesButton(context)
-//         ],
-//       );
-//       showDialog(
-//           context: context,
-//           builder: (_) =>
-//               Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [alertDialog],
-//               ));
-//     }
-//   });
-// }
-
-// Widget closeGameRulesButton(BuildContext context) {
-//   return Row(
-//     mainAxisAlignment: MainAxisAlignment.center,
-//     crossAxisAlignment: CrossAxisAlignment.center,
-//     children: [
-//       MaterialButton(
-//           child: Text(S
-//               .of(context)
-//               .open_game,
-//               style: const TextStyle(fontSize: 20, color: Colors.lightGreen)),
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//           })
-//     ],
-//   );
-// }
 }

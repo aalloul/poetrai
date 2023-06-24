@@ -41,5 +41,8 @@
   "avg_number_attempts": "Coups moyen",
   "detailed_rules": "<div><h3>C'est quoi PoetAI?</h3><p>On a demandé à une IA d'écrire un poême à partir d'un mot. Le jeu est de deviner ce mot en 5 essais ou moins!</p\n><h3>Comment jouer? </h3>\n    <p>Imaginons que le mot à deviner est serpent. Le jeu commence en affichant la 1ère partie du poême</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature's enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>Si tu tapes souris (par exemple), les letters S et R sur le clavier s'afficheront en <span style=\"color: orange\">orange</span> et la partie suivante du poême s'affichiera.</p>\n    <p>Tu as 4 autres essais pour deviner le bon mot!</p>\n    <p>Chaque jour à minuit CEST, un nouveau poême est publié et tu pourras retenter ta chance</p>\n</div>",
   "type_a_word": "Tape un mot",
-  "not_in_word_list": "Pas dans la liste des mots"
+  "not_in_word_list": "Pas dans la liste des mots",
+  "guess_todays_word": "Devine le mot d'aujourd'hui",
+  "short_description": "We've asked an AI to write a poem about a specific word. Can you guess which word it is?",
+  "lets_go": "Allons-y!"
 }

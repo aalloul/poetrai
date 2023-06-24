@@ -28,13 +28,15 @@ class GameOverDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CookieData cookieData = Provider.of<CookieData>(context, listen: false);
-
-    Poem poem = Provider.of<Poem>(context, listen: true);
+    Poem poem = Provider.of<Poem>(context, listen: false);
     return Selector<UserInputProvider, Tuple3<bool, bool, int>>(
       selector: (_, userInputProvider) => Tuple3(userInputProvider.gameOver,
           userInputProvider.hasWon, userInputProvider.attemptNumber),
       builder: (context, data, child) => emptyContainer(
           context, data.item1, data.item2, data.item3, cookieData, poem),
+      shouldRebuild: (before, after) {
+        return before.item1 != after.item2;
+      },
     );
   }
 
@@ -44,6 +46,10 @@ class GameOverDialog extends StatelessWidget {
       cookieData.update(poem.todaysWord, attemptNumber, hasWon);
       SchedulerBinding.instance.addPostFrameCallback((_) {
         showGameOverDialog(context, attemptNumber, hasWon, poem);
+      });
+    } else if (poem.todaysWord.isNotEmpty & !gameOver) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        displayWelcomeMessage(context);
       });
     }
     return Container();
@@ -180,5 +186,42 @@ class GameOverDialog extends StatelessWidget {
 
   String shareTextMessage(BuildContext context, Poem poem) {
     return S.of(context).share_text(poem.poemPart1);
+  }
+
+  displayWelcomeMessage(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              insetPadding: const EdgeInsets.symmetric(horizontal: 80),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2),
+                  side: const BorderSide(width: 1, color: Colors.grey)),
+              title: Text(
+                S.of(context).guess_todays_word,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 24.0,
+                    color: Colors.white),
+              ),
+              content: Text(
+                S.of(context).short_description,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+              ),
+              actionsAlignment: MainAxisAlignment.center,
+              alignment: Alignment.center,
+              actions: [
+                ElevatedButton(
+                    onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+                    child: Text(
+                      S.of(context).lets_go,
+                      style: const TextStyle(color: Colors.white),
+                    )),
+              ],
+            ));
   }
 }

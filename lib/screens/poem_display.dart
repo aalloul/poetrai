@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:poetrai/data_layer/poem.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+
+import '../generated/l10n.dart';
 
 class PoemDisplay extends StatelessWidget {
   const PoemDisplay({Key? key}) : super(key: key);
@@ -17,8 +20,9 @@ class PoemDisplay extends StatelessWidget {
             userInputProvider.attemptNumber,
             userInputProvider.gameOver,
             cookieData.lastGameWord().word == poem.todaysWord),
-        builder: (context, data, child) =>
-            verseHolders(poem, data.item1, data.item2, data.item3));
+        builder: (context, data, child) {
+          return verseHolders(poem, data.item1, data.item2, data.item3);
+        });
   }
 
   List<Widget> columnChildren(Poem poem, int attemptNumber, bool hasFinished) {
@@ -106,6 +110,7 @@ class PoemDisplay extends StatelessWidget {
 
   Widget verseHolders(
       Poem poem, int attemptNumber, bool gameOver, bool isSameWordAsPrevious) {
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -114,15 +119,15 @@ class PoemDisplay extends StatelessWidget {
         const Expanded(flex: 1, child: SizedBox()),
         Expanded(
             flex: 10,
-            child: Column(
-                // mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: columnChildren(
-                    poem,
-                    (gameOver || isSameWordAsPrevious) ? 99 : attemptNumber,
-                    (gameOver || isSameWordAsPrevious)))),
+            child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: columnChildren(
+                        poem,
+                        (gameOver || isSameWordAsPrevious) ? 99 : attemptNumber,
+                        (gameOver || isSameWordAsPrevious))))),
         const Expanded(flex: 1, child: SizedBox()),
+
       ],
     );
   }
@@ -148,4 +153,6 @@ class PoemDisplay extends StatelessWidget {
       textAlign: TextAlign.center,
     );
   }
+
+
 }

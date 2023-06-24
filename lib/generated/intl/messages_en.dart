@@ -47,7 +47,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "games_lost": MessageLookupByLibrary.simpleMessage("Lost"),
         "games_played": MessageLookupByLibrary.simpleMessage("Played"),
         "games_won": MessageLookupByLibrary.simpleMessage("Won"),
+        "guess_todays_word":
+            MessageLookupByLibrary.simpleMessage("Guess today\'s word"),
         "incorrect_word": m1,
+        "lets_go": MessageLookupByLibrary.simpleMessage("Let\'s go!"),
         "not_in_word_list":
             MessageLookupByLibrary.simpleMessage("Not in word list"),
         "open_game": MessageLookupByLibrary.simpleMessage("Start the game"),
@@ -55,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "share_feedback":
             MessageLookupByLibrary.simpleMessage("Give us your feedback"),
         "share_text": m2,
+        "short_description": MessageLookupByLibrary.simpleMessage(
+            "Nous avons demandé à une IA d\'êcrire un poême à partir d\'un mot. Sauras-tu deviner ce mot?"),
         "too_bad": MessageLookupByLibrary.simpleMessage("Too bad !"),
         "type_a_word": MessageLookupByLibrary.simpleMessage("Type a word"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to PoetAI"),
