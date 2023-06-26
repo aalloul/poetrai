@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
@@ -7,10 +8,17 @@ import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
+import '../constants.dart';
 import '../generated/l10n.dart';
 
 class PoemDisplay extends StatelessWidget {
-  const PoemDisplay({Key? key}) : super(key: key);
+  const PoemDisplay({
+    Key? key,
+    required this.analytics,
+    required this.observer,
+  }) : super(key: key);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,17 @@ class PoemDisplay extends StatelessWidget {
             userInputProvider.gameOver,
             cookieData.lastGameWord().word == poem.todaysWord),
         builder: (context, data, child) {
-          return verseHolders(poem, data.item1, data.item2, data.item3);
+          if (poem.loading) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: Constants.secondaryColor,
+            ));
+          } else {
+            if ((data.item1 == 0) & (!data.item2) & (!data.item3)) {
+              analytics.logLevelStart(levelName: "1stWord");
+            }
+            return verseHolders(poem, data.item1, data.item2, data.item3);
+          }
         });
   }
 
@@ -110,7 +128,6 @@ class PoemDisplay extends StatelessWidget {
 
   Widget verseHolders(
       Poem poem, int attemptNumber, bool gameOver, bool isSameWordAsPrevious) {
-
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +144,6 @@ class PoemDisplay extends StatelessWidget {
                         (gameOver || isSameWordAsPrevious) ? 99 : attemptNumber,
                         (gameOver || isSameWordAsPrevious))))),
         const Expanded(flex: 1, child: SizedBox()),
-
       ],
     );
   }
@@ -153,6 +169,4 @@ class PoemDisplay extends StatelessWidget {
       textAlign: TextAlign.center,
     );
   }
-
-
 }

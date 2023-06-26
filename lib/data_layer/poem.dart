@@ -34,6 +34,7 @@ class Poem {
   String get poemPart2 => inputJson['part2'] ?? "";
   String get poemPart3 => inputJson['part3'] ?? "";
   String get poemPart4 => inputJson['part4'] ?? "";
+  bool get loading => todaysWord == "loading";
 
   factory Poem.empty() {
     return Poem({

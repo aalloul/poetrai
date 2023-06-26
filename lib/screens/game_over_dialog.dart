@@ -12,6 +12,7 @@ import 'package:tuple/tuple.dart';
 import '../constants.dart';
 import '../data_layer/giphy_api.dart';
 import '../generated/l10n.dart';
+import '../utils.dart';
 
 class GameOverDialog extends StatelessWidget {
   final bool isWebMobile;
@@ -27,7 +28,7 @@ class GameOverDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CookieData cookieData = Provider.of<CookieData>(context, listen: false);
+    CookieData cookieData = Provider.of<CookieData>(context, listen: true);
     Poem poem = Provider.of<Poem>(context, listen: false);
     return Selector<UserInputProvider, Tuple3<bool, bool, int>>(
       selector: (_, userInputProvider) => Tuple3(userInputProvider.gameOver,
@@ -35,28 +36,42 @@ class GameOverDialog extends StatelessWidget {
       builder: (context, data, child) => emptyContainer(
           context, data.item1, data.item2, data.item3, cookieData, poem),
       shouldRebuild: (before, after) {
-        return before.item1 != after.item2;
+        return before.item1 != after.item1;
       },
     );
   }
 
   Widget emptyContainer(BuildContext context, bool gameOver, bool hasWon,
       int attemptNumber, CookieData cookieData, Poem poem) {
+    if (poem.loading) {
+      return Container();
+    }
+
+    bool displayWelcome = (poem.todaysWord.isNotEmpty) &
+        (poem.todaysWord != cookieData.stringWord.getValue()) &
+        (!gameOver) &
+        (cookieData.totalGames.getValue() < 4);
+
     if (gameOver) {
+      printIfDebug("emptyContainer - gameOver");
       cookieData.update(poem.todaysWord, attemptNumber, hasWon);
       SchedulerBinding.instance.addPostFrameCallback((_) {
+        analytics.logLevelEnd(levelName: "1stWord");
         showGameOverDialog(context, attemptNumber, hasWon, poem);
       });
-    } else if (poem.todaysWord.isNotEmpty & !gameOver) {
+    } else if (displayWelcome) {
+      printIfDebug("display Welcome message - gaveOver = $gameOver");
       SchedulerBinding.instance.addPostFrameCallback((_) {
         displayWelcomeMessage(context);
       });
     }
+    printIfDebug("emptyContainer - not gameOver");
     return Container();
   }
 
   showGameOverDialog(
       BuildContext context, int attemptNumber, bool hasWon, Poem poem) {
+    printIfDebug("showGameOverDialog");
     return showDialog(
         context: context,
         builder: (_) => FutureBuilder<String>(
@@ -74,7 +89,7 @@ class GameOverDialog extends StatelessWidget {
                     hasWon
                         ? S.of(context).correct_word(poem.todaysWord)
                         : S.of(context).incorrect_word(poem.todaysWord),
-                    getShareButton(context, poem),
+                    getShareButton(context, poem, attemptNumber),
                     snapshot.data!);
               } else {
                 return const Column(
@@ -128,9 +143,12 @@ class GameOverDialog extends StatelessWidget {
             Text(
               content,
               maxLines: 2,
+              textAlign: TextAlign.center,
             )
           ]),
-      actions: [action],
+      actions: [
+        action,
+      ],
       actionsAlignment: MainAxisAlignment.center,
       alignment: Alignment.bottomCenter,
       insetPadding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
@@ -141,11 +159,11 @@ class GameOverDialog extends StatelessWidget {
     return GiphyAPI.getGIF(value).then((value) => value.gifURL());
   }
 
-  Widget getShareButton(BuildContext context, Poem poem) {
+  Widget getShareButton(BuildContext context, Poem poem, int attemptNumber) {
     return Builder(
       builder: (BuildContext context) {
         return ElevatedButton(
-            onPressed: () => _onShare(context, poem),
+            onPressed: () => _onShare(context, poem, attemptNumber),
             style: ButtonStyle(
                 backgroundColor:
                     MaterialStatePropertyAll<Color>(Constants.primaryColor)),
@@ -157,15 +175,16 @@ class GameOverDialog extends StatelessWidget {
     );
   }
 
-  void _onShare(BuildContext context, Poem poem) async {
+  void _onShare(BuildContext context, Poem poem, int attemptNumber) async {
     analytics.logEvent(name: "Share app");
 
     if (isWebMobile) {
       final box = context.findRenderObject() as RenderBox?;
-      await Share.share(shareTextMessage(context, poem),
+      await Share.share(shareTextMessage(context, poem, attemptNumber),
           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     } else {
-      Clipboard.setData(ClipboardData(text: shareTextMessage(context, poem)));
+      Clipboard.setData(
+          ClipboardData(text: shareTextMessage(context, poem, attemptNumber)));
       showDialog(
           context: context,
           builder: (cont) {
@@ -184,8 +203,10 @@ class GameOverDialog extends StatelessWidget {
     }
   }
 
-  String shareTextMessage(BuildContext context, Poem poem) {
-    return S.of(context).share_text(poem.poemPart1);
+  String shareTextMessage(BuildContext context, Poem poem, int attemptNumber) {
+    return S
+        .of(context)
+        .share_text_win(poem.poemPart1, attemptNumber.toString());
   }
 
   displayWelcomeMessage(BuildContext context) {
@@ -213,10 +234,11 @@ class GameOverDialog extends StatelessWidget {
               alignment: Alignment.center,
               actions: [
                 ElevatedButton(
-                    onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                    onPressed: () =>
+                        Navigator.of(context, rootNavigator: true).pop(),
                     style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+                        backgroundColor: MaterialStatePropertyAll<Color>(
+                            Constants.primaryColor)),
                     child: Text(
                       S.of(context).lets_go,
                       style: const TextStyle(color: Colors.white),

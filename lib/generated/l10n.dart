@@ -130,13 +130,23 @@ class S {
     );
   }
 
-  /// `Can you guess what this poem is about:\n\n{poem}\n\nTry it out at https://poetai.app\n`
+  /// `Can you guess this poem's title:\n\n{poem}\n\nTry it out at https://poetai.app\n`
   String share_text(String poem) {
     return Intl.message(
-      'Can you guess what this poem is about:\n\n$poem\n\nTry it out at https://poetai.app\n',
+      'Can you guess this poem\'s title:\n\n$poem\n\nTry it out at https://poetai.app\n',
       name: 'share_text',
       desc: '',
       args: [poem],
+    );
+  }
+
+  /// `Can you guess this poem's title:\n\n{poem}\n\nMy score today {n}/5.\n\n  https://poetai.app\n`
+  String share_text_win(String poem, String n) {
+    return Intl.message(
+      'Can you guess this poem\'s title:\n\n$poem\n\nMy score today $n/5.\n\n  https://poetai.app\n',
+      name: 'share_text_win',
+      desc: '',
+      args: [poem, n],
     );
   }
 
@@ -270,10 +280,10 @@ class S {
     );
   }
 
-  /// `Nous avons demandé à une IA d'êcrire un poême à partir d'un mot. Sauras-tu deviner ce mot?`
+  /// `We've asked an AI to write a poem about a specific word. Can you guess which word it is?`
   String get short_description {
     return Intl.message(
-      'Nous avons demandé à une IA d\'êcrire un poême à partir d\'un mot. Sauras-tu deviner ce mot?',
+      'We\'ve asked an AI to write a poem about a specific word. Can you guess which word it is?',
       name: 'short_description',
       desc: '',
       args: [],

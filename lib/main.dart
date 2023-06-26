@@ -23,6 +23,8 @@ import 'data_layer/poem.dart';
 import 'generated/l10n.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+// TODO rewards with status
+// TODO multiple words a day (maybe 1 main word then 2 extra if you watch an ad)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

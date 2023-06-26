@@ -22,10 +22,21 @@
   "back_to_game": "Revenir au jeu",
   "welcome": "Bienvenu à PoetAI",
   "share_button": "Partager",
-  "share_text": "Peux-tu deviner le sujet de ce poême:\n\n{poem}\n\nEssaie ici https://poetai.app \n",
+  "share_text": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nEssaie ici https://poetai.app \n",
   "@share_text": {
     "placeholders": {
       "poem": {
+        "type": "String"
+      }
+    }
+  },
+  "share_text_win": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nMon score aujourd'hui {n}/5.\n\n  https://poetai.app\n",
+  "@share_text_win": {
+    "placeholders": {
+      "poem": {
+        "type": "String"
+      },
+      "n": {
         "type": "String"
       }
     }
@@ -43,6 +54,6 @@
   "type_a_word": "Tape un mot",
   "not_in_word_list": "Pas dans la liste des mots",
   "guess_todays_word": "Devine le mot d'aujourd'hui",
-  "short_description": "We've asked an AI to write a poem about a specific word. Can you guess which word it is?",
+  "short_description": "Nous avons demandé à une IA d'êcrire un poême à partir d'un mot. Sauras-tu deviner ce mot?",
   "lets_go": "Allons-y!"
 }

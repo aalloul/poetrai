@@ -27,7 +27,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "The word of today was ${word} but worry not, tomorrow you\'ll get to try again with a new poem!";
 
   static String m2(poem) =>
-      "Can you guess what this poem is about:\n\n${poem}\n\nTry it out at https://poetai.app\n";
+      "Can you guess this poem\'s title:\n\n${poem}\n\nTry it out at https://poetai.app\n";
+
+  static String m3(poem, n) =>
+      "Can you guess this poem\'s title:\n\n${poem}\n\nMy score today ${n}/5.\n\n  https://poetai.app\n";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -58,8 +61,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "share_feedback":
             MessageLookupByLibrary.simpleMessage("Give us your feedback"),
         "share_text": m2,
+        "share_text_win": m3,
         "short_description": MessageLookupByLibrary.simpleMessage(
-            "Nous avons demandé à une IA d\'êcrire un poême à partir d\'un mot. Sauras-tu deviner ce mot?"),
+            "We\'ve asked an AI to write a poem about a specific word. Can you guess which word it is?"),
         "too_bad": MessageLookupByLibrary.simpleMessage("Too bad !"),
         "type_a_word": MessageLookupByLibrary.simpleMessage("Type a word"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to PoetAI"),
