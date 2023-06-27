@@ -224,7 +224,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       onPressed: _launchUrl,
       style: ButtonStyle(
           backgroundColor:
-              MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+              MaterialStatePropertyAll<Color>(Constants.secondaryColor)),
       child: Text(
         S.of(context).share_feedback,
         style: const TextStyle(color: Colors.white),

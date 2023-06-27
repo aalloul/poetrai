@@ -29,7 +29,7 @@ class GameOverDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CookieData cookieData = Provider.of<CookieData>(context, listen: true);
-    Poem poem = Provider.of<Poem>(context, listen: false);
+    Poem poem = Provider.of<Poem>(context, listen: true);
     return Selector<UserInputProvider, Tuple3<bool, bool, int>>(
       selector: (_, userInputProvider) => Tuple3(userInputProvider.gameOver,
           userInputProvider.hasWon, userInputProvider.attemptNumber),

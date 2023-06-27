@@ -60,8 +60,7 @@ class MyApp extends StatelessWidget {
         ],
         title: 'PoetAI - We asked AI to write poems!',
         theme: ThemeData(
-            colorSchemeSeed: Colors.black,
-            brightness: Brightness.dark),
+            colorSchemeSeed: Colors.black, brightness: Brightness.dark),
         supportedLocales: const [
           Locale('en', ''),
           Locale('fr', ''),
@@ -130,7 +129,11 @@ class _HomeState extends State<Home> {
               height: 40,
             ),
             const AttemptNumber(),
-            const Expanded(child: PoemDisplay()),
+            Expanded(
+                child: PoemDisplay(
+                  analytics: widget.analytics,
+                  observer: widget.observer,
+                )),
             GameOverDialog(
               analytics: widget.analytics,
               observer: widget.observer,
@@ -145,5 +148,4 @@ class _HomeState extends State<Home> {
       kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.iOS ||
           defaultTargetPlatform == TargetPlatform.android);
-
 }
