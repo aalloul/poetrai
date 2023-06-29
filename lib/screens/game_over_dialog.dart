@@ -228,7 +228,7 @@ class GameOverDialog extends StatelessWidget {
               content: Text(
                 S.of(context).short_description,
                 textAlign: TextAlign.center,
-                maxLines: 2,
+                maxLines: 4,
               ),
               actionsAlignment: MainAxisAlignment.center,
               alignment: Alignment.center,

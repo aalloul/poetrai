@@ -233,7 +233,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   Future<void> _launchUrl() async {
-    final Uri feedbackUrl = Uri.parse('https://forms.gle/CivZvq2Gw4BDZn2B8');
+    final Uri feedbackUrl = Uri.parse('https://forms.gle/TwptFpCdNJNTHRYp8');
 
     if (!await launchUrl(feedbackUrl)) {
       throw 'Could not launch $feedbackUrl';
