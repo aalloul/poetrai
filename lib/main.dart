@@ -131,15 +131,19 @@ class _HomeState extends State<Home> {
             const AttemptNumber(),
             Expanded(
                 child: PoemDisplay(
-                  analytics: widget.analytics,
-                  observer: widget.observer,
-                )),
+              analytics: widget.analytics,
+              observer: widget.observer,
+            )),
             GameOverDialog(
               analytics: widget.analytics,
               observer: widget.observer,
               isWebMobile: isWebMobile,
             ),
-            const UserInputArea(),
+            UserInputArea(
+              isWebMobile: isWebMobile,
+              analytics: widget.analytics,
+              observer: widget.observer,
+            ),
           ],
         ));
   }

@@ -1,9 +1,11 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
+import 'package:share_plus/share_plus.dart';
 import '../constants.dart';
 import '../data_layer/dictionary.dart';
-import 'package:poetrai/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -14,7 +16,16 @@ import '../data_layer/poem.dart';
 import '../generated/l10n.dart';
 
 class UserInputArea extends StatelessWidget {
-  const UserInputArea({Key? key}) : super(key: key);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+  final bool isWebMobile;
+
+  const UserInputArea({
+    Key? key,
+    required this.isWebMobile,
+    required this.analytics,
+    required this.observer,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +38,14 @@ class UserInputArea extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Selector<UserInputProvider, Tuple2<String, List<String>>>(
-            selector: (_, userInputProvider) => Tuple2(
+        Selector<UserInputProvider, Tuple3<String, List<String>, bool>>(
+            selector: (_, userInputProvider) => Tuple3(
                 userInputProvider.currentUserInput,
-                userInputProvider.listWords),
+                userInputProvider.listWords,
+                userInputProvider.gameOver),
             builder: (context, data, child) {
-              return currentUserInputDisplay(data.item1, data.item2);
+              return currentUserInputDisplay(
+                  data.item1, data.item2, data.item3);
             }),
         Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
             selector: (_, userInputProvider, cookieData) => Tuple2(
@@ -51,20 +64,20 @@ class UserInputArea extends StatelessWidget {
             selector: (_, userInputProvider, cookieData) => Tuple2(
                 userInputProvider.lettersFound, cookieData.lastGameWord().word),
             builder: (context, data, child) {
-              return keyBoard(["a", "s", "d", "f", "g", "h", "j", "k", "l", "Delete"],
-                  userInputProvider, data.item1, null, poem, data.item2);
+              return keyBoard(
+                  ["a", "s", "d", "f", "g", "h", "j", "k", "l", "Delete"],
+                  userInputProvider,
+                  data.item1,
+                  null,
+                  poem,
+                  data.item2);
             }),
         Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
             selector: (_, userInputProvider, cookieData) => Tuple2(
                 userInputProvider.lettersFound, cookieData.lastGameWord().word),
             builder: (context, data, child) {
-              return keyBoard(
-                  ["z", "x", "c", "v", "b", "n", "m", "Enter"],
-                  userInputProvider,
-                  data.item1,
-                  dictionary,
-                  poem,
-                  data.item2);
+              return keyBoard(["z", "x", "c", "v", "b", "n", "m", "Enter"],
+                  userInputProvider, data.item1, dictionary, poem, data.item2);
             },
             shouldRebuild: (before, after) {
               return before != after;
@@ -80,13 +93,23 @@ class UserInputArea extends StatelessWidget {
           shouldRebuild: (before, after) {
             return after.item1 || after.item2;
           },
+        ),
+        Selector<UserInputProvider, Tuple2<bool, int>>(
+          selector: (_, userInputProvider) => Tuple2(
+              userInputProvider.gameOver, userInputProvider.attemptNumber),
+          builder: (context, data, child) {
+            return getShareButton(context, poem, data.item2);
+          },
+          shouldRebuild: (before, after) => after.item1 == true,
         )
       ],
     );
   }
 
   Widget currentUserInputDisplay(
-      String userStringInput, List<String> listWords) {
+      String userStringInput, List<String> listWords, bool hasWon) {
+    if (hasWon) return Container();
+
     List<Widget> children = [
       Container(margin: const EdgeInsets.fromLTRB(0, 0, 10, 0))
     ];
@@ -125,6 +148,7 @@ class UserInputArea extends StatelessWidget {
       Dictionary? dictionary,
       Poem? poem,
       String previousWord) {
+    if (poem?.todaysWord == previousWord) return Container();
     Widget lettersContainer = Container(
         color: Colors.black38,
         child: Row(
@@ -259,5 +283,55 @@ class UserInputArea extends StatelessWidget {
         duration: const Duration(seconds: 1),
       ),
     );
+  }
+
+  Widget getShareButton(BuildContext context, Poem poem, int attemptNumber) {
+    return Builder(
+      builder: (BuildContext context) {
+        return ElevatedButton(
+            onPressed: () => _onShare(context, poem, attemptNumber),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+            child: Text(
+              S.of(context).share_button,
+              style: const TextStyle(color: Colors.white),
+            ));
+      },
+    );
+  }
+
+  void _onShare(BuildContext context, Poem poem, int attemptNumber) async {
+    analytics.logEvent(name: "Share app");
+
+    if (isWebMobile) {
+      final box = context.findRenderObject() as RenderBox?;
+      await Share.share(shareTextMessage(context, poem, attemptNumber),
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    } else {
+      Clipboard.setData(
+          ClipboardData(text: shareTextMessage(context, poem, attemptNumber)));
+      showDialog(
+          context: context,
+          builder: (cont) {
+            Future.delayed(const Duration(seconds: 1)).then((_) {
+              Navigator.of(context).pop();
+            });
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(28),
+                  side: const BorderSide(width: 1, color: Colors.grey)),
+              content: const Text("Copied to clipboard"),
+              // actionsAlignment: MainAxisAlignment.spaceBetween,
+              backgroundColor: Colors.white,
+            );
+          });
+    }
+  }
+
+  String shareTextMessage(BuildContext context, Poem poem, int attemptNumber) {
+    return S
+        .of(context)
+        .share_text_win(poem.poemPart1, attemptNumber.toString());
   }
 }

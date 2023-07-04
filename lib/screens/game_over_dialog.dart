@@ -1,12 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:poetrai/data_layer/poem.dart';
 import 'package:poetrai/models/user_input_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:tuple/tuple.dart';
 
 import '../constants.dart';
@@ -72,6 +72,9 @@ class GameOverDialog extends StatelessWidget {
   showGameOverDialog(
       BuildContext context, int attemptNumber, bool hasWon, Poem poem) {
     printIfDebug("showGameOverDialog");
+    Timer? timer = Timer(const Duration(milliseconds: 3000), (){
+      Navigator.of(context, rootNavigator: true).pop();
+    });
     return showDialog(
         context: context,
         builder: (_) => FutureBuilder<String>(
@@ -89,7 +92,6 @@ class GameOverDialog extends StatelessWidget {
                     hasWon
                         ? S.of(context).correct_word(poem.todaysWord)
                         : S.of(context).incorrect_word(poem.todaysWord),
-                    getShareButton(context, poem, attemptNumber),
                     snapshot.data!);
               } else {
                 return const Column(
@@ -98,11 +100,14 @@ class GameOverDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [CircularProgressIndicator()]);
               }
-            }));
+            })).then((value) {
+              timer?.cancel();
+              timer = null;
+    });
   }
 
   AlertDialog alertDialogForGameOver(
-      String title, String content, Widget action, String giphyURL) {
+      String title, String content, String giphyURL) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(28),
@@ -146,9 +151,6 @@ class GameOverDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             )
           ]),
-      actions: [
-        action,
-      ],
       actionsAlignment: MainAxisAlignment.center,
       alignment: Alignment.bottomCenter,
       insetPadding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
@@ -157,56 +159,6 @@ class GameOverDialog extends StatelessWidget {
 
   Future<String> getGiphy(int value) {
     return GiphyAPI.getGIF(value).then((value) => value.gifURL());
-  }
-
-  Widget getShareButton(BuildContext context, Poem poem, int attemptNumber) {
-    return Builder(
-      builder: (BuildContext context) {
-        return ElevatedButton(
-            onPressed: () => _onShare(context, poem, attemptNumber),
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStatePropertyAll<Color>(Constants.primaryColor)),
-            child: Text(
-              S.of(context).share_button,
-              style: const TextStyle(color: Colors.white),
-            ));
-      },
-    );
-  }
-
-  void _onShare(BuildContext context, Poem poem, int attemptNumber) async {
-    analytics.logEvent(name: "Share app");
-
-    if (isWebMobile) {
-      final box = context.findRenderObject() as RenderBox?;
-      await Share.share(shareTextMessage(context, poem, attemptNumber),
-          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
-    } else {
-      Clipboard.setData(
-          ClipboardData(text: shareTextMessage(context, poem, attemptNumber)));
-      showDialog(
-          context: context,
-          builder: (cont) {
-            Future.delayed(const Duration(seconds: 1)).then((_) {
-              Navigator.of(context).pop();
-            });
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(28),
-                  side: const BorderSide(width: 1, color: Colors.grey)),
-              content: const Text("Copied to clipboard"),
-              // actionsAlignment: MainAxisAlignment.spaceBetween,
-              backgroundColor: Colors.white,
-            );
-          });
-    }
-  }
-
-  String shareTextMessage(BuildContext context, Poem poem, int attemptNumber) {
-    return S
-        .of(context)
-        .share_text_win(poem.poemPart1, attemptNumber.toString());
   }
 
   displayWelcomeMessage(BuildContext context) {
