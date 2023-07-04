@@ -98,7 +98,7 @@ class UserInputArea extends StatelessWidget {
           selector: (_, userInputProvider) => Tuple2(
               userInputProvider.gameOver, userInputProvider.attemptNumber),
           builder: (context, data, child) {
-            return getShareButton(context, poem, data.item2);
+            return getShareButton(context, poem, data.item1, data.item2);
           },
           shouldRebuild: (before, after) => after.item1 == true,
         )
@@ -285,7 +285,8 @@ class UserInputArea extends StatelessWidget {
     );
   }
 
-  Widget getShareButton(BuildContext context, Poem poem, int attemptNumber) {
+  Widget getShareButton(BuildContext context, Poem poem, bool gameOver, int attemptNumber) {
+    if (!gameOver) return Container();
     return Builder(
       builder: (BuildContext context) {
         return ElevatedButton(

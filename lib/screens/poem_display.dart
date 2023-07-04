@@ -1,15 +1,15 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
 import 'package:poetrai/data_layer/poem.dart';
 import 'package:poetrai/models/user_input_provider.dart';
+import 'package:poetrai/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'package:blur/blur.dart';
 
 import '../constants.dart';
-import '../generated/l10n.dart';
 
 class PoemDisplay extends StatelessWidget {
   const PoemDisplay({
@@ -44,86 +44,49 @@ class PoemDisplay extends StatelessWidget {
   }
 
   List<Widget> columnChildren(Poem poem, int attemptNumber, bool hasFinished) {
-    switch (attemptNumber) {
-      case 0:
-        return [
-          wrapVerseInText(
-            poem.poemPart1,
-          ),
-        ];
-      case 1:
-        return [
-          // const SizedBox(
-          //   width: 40,
-          // ),
-          wrapVerseInText(
-            poem.poemPart1,
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          wrapVerseInText(
-            poem.poemPart2,
-          )
-        ];
-      case 2:
-        return [
-          // const SizedBox(
-          //   width: 40,
-          // ),
-          wrapVerseInText(
-            poem.poemPart1,
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          wrapVerseInText(
-            poem.poemPart2,
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          wrapVerseInText(
-            poem.poemPart3,
-          ),
-        ];
-      default:
-        return [
-          hasFinished ? displayPoemTitle(poem.todaysWord) : Container(),
-          hasFinished
-              ? const SizedBox(
-                  height: 60,
-                )
-              : Container(),
-          wrapVerseInText(
-            poem.poemPart1,
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          wrapVerseInText(
-            poem.poemPart2,
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          wrapVerseInText(
-            poem.poemPart3,
-          ),
-          const SizedBox(
-            height: 10,
-            child: Text(""),
-          ),
-          wrapVerseInText(
-            poem.poemPart4,
-          ),
-        ];
+    List<Widget> minDisplay = [
+      displayPoemTitle(poem.todaysWord, attemptNumber),
+      const SizedBox(
+        height: 60,
+      ),
+      wrapVerseInText(
+        poem.poemPart1,
+      )
+    ];
+    if (attemptNumber >= 1) {
+      minDisplay.addAll([
+        const SizedBox(
+          height: 10,
+          child: Text(""),
+        ),
+        wrapVerseInText(
+          poem.poemPart2,
+        )
+      ]);
     }
+    if (attemptNumber >= 2) {
+      minDisplay.addAll([
+        const SizedBox(
+          height: 10,
+          child: Text(""),
+        ),
+        wrapVerseInText(
+          poem.poemPart3,
+        ),
+      ]);
+    }
+    if (attemptNumber >= 3) {
+      minDisplay.addAll([
+        const SizedBox(
+          height: 10,
+          child: Text(""),
+        ),
+        wrapVerseInText(
+          poem.poemPart4,
+        ),
+      ]);
+    }
+    return minDisplay;
   }
 
   Widget verseHolders(
@@ -159,14 +122,19 @@ class PoemDisplay extends StatelessWidget {
     );
   }
 
-  Widget displayPoemTitle(String title) {
-    return Text(
-      toBeginningOfSentenceCase(title)!,
-      style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontStyle: FontStyle.italic,
-          fontSize: 18),
-      textAlign: TextAlign.center,
-    );
+  Widget displayPoemTitle(String title, int attemptNumber) {
+    printIfDebug("attemptNumber = $attemptNumber");
+    return Blur(
+        blur: 2.5*4/attemptNumber,
+        blurColor: Constants.secondaryColor,
+        colorOpacity: attemptNumber > Constants.attemptNumbers ? 0 : 0.5,
+        child: Text(
+          toBeginningOfSentenceCase(title)!,
+          style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.italic,
+              fontSize: 18),
+          textAlign: TextAlign.center,
+        ));
   }
 }
