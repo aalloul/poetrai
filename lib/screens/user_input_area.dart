@@ -1,9 +1,6 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:poetrai/data_layer/cookie_data.dart';
-import 'package:share_plus/share_plus.dart';
 import '../constants.dart';
 import '../data_layer/dictionary.dart';
 import 'package:provider/provider.dart';
@@ -16,15 +13,9 @@ import '../data_layer/poem.dart';
 import '../generated/l10n.dart';
 
 class UserInputArea extends StatelessWidget {
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-  final bool isWebMobile;
 
   const UserInputArea({
     Key? key,
-    required this.isWebMobile,
-    required this.analytics,
-    required this.observer,
   }) : super(key: key);
 
   @override
@@ -94,14 +85,6 @@ class UserInputArea extends StatelessWidget {
             return after.item1 || after.item2;
           },
         ),
-        Selector<UserInputProvider, Tuple2<bool, int>>(
-          selector: (_, userInputProvider) => Tuple2(
-              userInputProvider.gameOver, userInputProvider.attemptNumber),
-          builder: (context, data, child) {
-            return getShareButton(context, poem, data.item1, data.item2);
-          },
-          shouldRebuild: (before, after) => after.item1 == true,
-        )
       ],
     );
   }
@@ -285,54 +268,4 @@ class UserInputArea extends StatelessWidget {
     );
   }
 
-  Widget getShareButton(BuildContext context, Poem poem, bool gameOver, int attemptNumber) {
-    if (!gameOver) return Container();
-    return Builder(
-      builder: (BuildContext context) {
-        return ElevatedButton(
-            onPressed: () => _onShare(context, poem, attemptNumber),
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStatePropertyAll<Color>(Constants.primaryColor)),
-            child: Text(
-              S.of(context).share_button,
-              style: const TextStyle(color: Colors.white),
-            ));
-      },
-    );
-  }
-
-  void _onShare(BuildContext context, Poem poem, int attemptNumber) async {
-    analytics.logEvent(name: "Share app");
-
-    if (isWebMobile) {
-      final box = context.findRenderObject() as RenderBox?;
-      await Share.share(shareTextMessage(context, poem, attemptNumber),
-          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
-    } else {
-      Clipboard.setData(
-          ClipboardData(text: shareTextMessage(context, poem, attemptNumber)));
-      showDialog(
-          context: context,
-          builder: (cont) {
-            Future.delayed(const Duration(seconds: 1)).then((_) {
-              Navigator.of(context).pop();
-            });
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(28),
-                  side: const BorderSide(width: 1, color: Colors.grey)),
-              content: const Text("Copied to clipboard"),
-              // actionsAlignment: MainAxisAlignment.spaceBetween,
-              backgroundColor: Colors.white,
-            );
-          });
-    }
-  }
-
-  String shareTextMessage(BuildContext context, Poem poem, int attemptNumber) {
-    return S
-        .of(context)
-        .share_text_win(poem.poemPart1, attemptNumber.toString());
-  }
 }

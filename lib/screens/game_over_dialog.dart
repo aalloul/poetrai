@@ -72,13 +72,13 @@ class GameOverDialog extends StatelessWidget {
   showGameOverDialog(
       BuildContext context, int attemptNumber, bool hasWon, Poem poem) {
     printIfDebug("showGameOverDialog");
-    Timer? timer = Timer(const Duration(milliseconds: 3000), (){
+    Timer? timer = Timer(const Duration(milliseconds: 5000), (){
       Navigator.of(context, rootNavigator: true).pop();
     });
     return showDialog(
         context: context,
         builder: (_) => FutureBuilder<String>(
-            future: getGiphy(attemptNumber),
+            future: getGiphy(attemptNumber+1),
             builder:
                 (BuildContext buildContext, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {

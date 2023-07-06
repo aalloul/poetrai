@@ -133,17 +133,14 @@ class _HomeState extends State<Home> {
                 child: PoemDisplay(
               analytics: widget.analytics,
               observer: widget.observer,
+              isWebMobile: isWebMobile,
             )),
             GameOverDialog(
               analytics: widget.analytics,
               observer: widget.observer,
               isWebMobile: isWebMobile,
             ),
-            UserInputArea(
-              isWebMobile: isWebMobile,
-              analytics: widget.analytics,
-              observer: widget.observer,
-            ),
+            const UserInputArea(),
           ],
         ));
   }
