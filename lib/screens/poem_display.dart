@@ -28,11 +28,13 @@ class PoemDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Poem poem = Provider.of<Poem>(context, listen: true);
+    printIfDebug("Uri.base.toString() = ${Uri.base.toString()}");
     return Column(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Container(height: 40,),
         Selector2<UserInputProvider, CookieData, Tuple3<int, bool, bool>>(
             selector: (_, userInputProvider, cookieData) => Tuple3(
                 userInputProvider.attemptNumber,
@@ -51,7 +53,7 @@ class PoemDisplay extends StatelessWidget {
                 return verseHolders(poem, data.item1, data.item2, data.item3);
               }
             }),
-        Container(height: 20,),
+        Container(height: 40,),
         Selector2<UserInputProvider, CookieData, Tuple2<bool, int>>(
           selector: (_, userInputProvider, cookieData) => Tuple2(
               userInputProvider.gameOver || cookieData.lastGameWord().word == poem.todaysWord, userInputProvider.attemptNumber),
@@ -207,6 +209,6 @@ class PoemDisplay extends StatelessWidget {
   String shareTextMessage(BuildContext context, Poem poem, int attemptNumber) {
     return S
         .of(context)
-        .share_text_win(poem.poemPart1, attemptNumber.toString());
+        .share_text_win(poem.poemPart1, attemptNumber.toString(), Uri.base.toString());
   }
 }

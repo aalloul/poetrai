@@ -120,29 +120,35 @@ class _HomeState extends State<Home> {
     printIfDebug("build homepage");
     return Scaffold(
         appBar: PoetrAIAppBar(isWebMobile, widget.analytics, widget.observer),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: Stack(
+          alignment: Alignment.topCenter,
+          fit: StackFit.expand,
           children: [
-            const SizedBox(
-              height: 40,
-            ),
-            const AttemptNumber(),
-            Expanded(
-                child: PoemDisplay(
-              analytics: widget.analytics,
-              observer: widget.observer,
-              isWebMobile: isWebMobile,
-            )),
-            GameOverDialog(
-              analytics: widget.analytics,
-              observer: widget.observer,
-              isWebMobile: isWebMobile,
-            ),
-            const UserInputArea(),
+            const Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [AttemptNumber(), SizedBox(width: 10)]),
+            Column(children: [
+              Expanded(
+                  child: PoemDisplay(
+                analytics: widget.analytics,
+                observer: widget.observer,
+                isWebMobile: isWebMobile,
+              )),
+              GameOverDialog(
+                analytics: widget.analytics,
+                observer: widget.observer,
+                isWebMobile: isWebMobile,
+              ),
+              const UserInputArea()
+            ]),
           ],
-        ));
+        )
+        // const SizedBox(
+        //   height: 40,
+        // ),
+        );
   }
 
   bool get isWebMobile =>

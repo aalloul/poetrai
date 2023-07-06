@@ -286,7 +286,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   String shareTextMessage(BuildContext context, String poemPart1) {
-    return S.of(context).share_text(poemPart1);
+    return S.of(context).share_text(poemPart1, Uri.base.toString());
   }
 
   Widget extendRulesButton(BuildContext context) {

@@ -22,21 +22,27 @@
   "back_to_game": "Revenir au jeu",
   "welcome": "Bienvenu à PoetAI",
   "share_button": "Partager",
-  "share_text": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nEssaie ici https://poetai.app \n",
+  "share_text": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nEssaie ici {url} \n",
   "@share_text": {
     "placeholders": {
       "poem": {
         "type": "String"
+      },
+      "url": {
+        "type": "String"
       }
     }
   },
-  "share_text_win": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nMon score aujourd'hui {n}/5.\n\n  https://poetai.app\n",
+  "share_text_win": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nMon score aujourd'hui {n}/5.\n\n{url}\n",
   "@share_text_win": {
     "placeholders": {
       "poem": {
         "type": "String"
       },
       "n": {
+        "type": "String"
+      },
+      "url": {
         "type": "String"
       }
     }

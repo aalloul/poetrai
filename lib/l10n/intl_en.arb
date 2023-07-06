@@ -22,21 +22,27 @@
   "back_to_game": "Back to game",
   "welcome": "Welcome to PoetAI",
   "share_button": "Share",
-  "share_text": "Can you guess this poem's title:\n\n{poem}\n\nTry it out at https://poetai.app\n",
+  "share_text": "Can you guess this poem's title:\n\n{poem}\n\nTry it out at {url}\n",
   "@share_text": {
     "placeholders": {
       "poem": {
         "type": "String"
+      },
+      "url": {
+        "type": "String"
       }
     }
   },
-  "share_text_win": "Can you guess this poem's title:\n\n{poem}\n\nMy score today {n}/5.\n\n  https://poetai.app\n",
+  "share_text_win": "Can you guess this poem's title:\n\n{poem}\n\nMy score today {n}/5.\n\n{url}\n",
   "@share_text_win": {
     "placeholders": {
       "poem": {
         "type": "String"
       },
       "n": {
+        "type": "String"
+      },
+      "url": {
         "type": "String"
       }
     }

@@ -26,11 +26,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(word) =>
       "Le mot d\'aujourd\'hui est ${word} mais ne t\'inquiète, demain tu auras la possibilité de retenter ta chance avec un autre poême";
 
-  static String m2(poem) =>
-      "Peux-tu deviner le titre de ce poême:\n\n${poem}\n\nEssaie ici https://poetai.app \n";
+  static String m2(poem, url) =>
+      "Peux-tu deviner le titre de ce poême:\n\n${poem}\n\nEssaie ici ${url} \n";
 
-  static String m3(poem, n) =>
-      "Peux-tu deviner le titre de ce poême:\n\n${poem}\n\nMon score aujourd\'hui ${n}/5.\n\n  https://poetai.app\n";
+  static String m3(poem, n, url) =>
+      "Peux-tu deviner le titre de ce poême:\n\n${poem}\n\nMon score aujourd\'hui ${n}/5.\n\n${url}\n";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{

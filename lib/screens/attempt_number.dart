@@ -10,11 +10,12 @@ class AttemptNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
+        const SizedBox(height: 10,),
         Selector<UserInputProvider, int>(
             builder: (context, data, child) {
               return CircularPercentIndicator(
@@ -28,7 +29,6 @@ class AttemptNumber extends StatelessWidget {
             selector: (_, userInputProvider) => userInputProvider.attemptNumber
         ),
 
-        const SizedBox(width: 20,),
       ],
     );
   }

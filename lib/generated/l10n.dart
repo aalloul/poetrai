@@ -130,23 +130,23 @@ class S {
     );
   }
 
-  /// `Can you guess this poem's title:\n\n{poem}\n\nTry it out at https://poetai.app\n`
-  String share_text(String poem) {
+  /// `Can you guess this poem's title:\n\n{poem}\n\nTry it out at {url}\n`
+  String share_text(String poem, String url) {
     return Intl.message(
-      'Can you guess this poem\'s title:\n\n$poem\n\nTry it out at https://poetai.app\n',
+      'Can you guess this poem\'s title:\n\n$poem\n\nTry it out at $url\n',
       name: 'share_text',
       desc: '',
-      args: [poem],
+      args: [poem, url],
     );
   }
 
-  /// `Can you guess this poem's title:\n\n{poem}\n\nMy score today {n}/5.\n\n  https://poetai.app\n`
-  String share_text_win(String poem, String n) {
+  /// `Can you guess this poem's title:\n\n{poem}\n\nMy score today {n}/5.\n\n{url}\n`
+  String share_text_win(String poem, String n, String url) {
     return Intl.message(
-      'Can you guess this poem\'s title:\n\n$poem\n\nMy score today $n/5.\n\n  https://poetai.app\n',
+      'Can you guess this poem\'s title:\n\n$poem\n\nMy score today $n/5.\n\n$url\n',
       name: 'share_text_win',
       desc: '',
-      args: [poem, n],
+      args: [poem, n, url],
     );
   }
 
