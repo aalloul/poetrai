@@ -29,7 +29,7 @@ class PoemDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     Poem poem = Provider.of<Poem>(context, listen: true);
     printIfDebug("Uri.base.toString() = ${Uri.base.toString()}");
-    return Column(
+    return SingleChildScrollView(child: Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +63,7 @@ class PoemDisplay extends StatelessWidget {
           shouldRebuild: (before, after) => after.item1 == true,
         )
       ],
-    );
+    ));
   }
 
   List<Widget> columnChildren(Poem poem, int attemptNumber, bool hasFinished) {
@@ -122,13 +122,12 @@ class PoemDisplay extends StatelessWidget {
         const Expanded(flex: 1, child: SizedBox()),
         Expanded(
             flex: 10,
-            child: SingleChildScrollView(
-                child: Column(
+            child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: columnChildren(
                         poem,
                         (gameOver || isSameWordAsPrevious) ? 99 : attemptNumber,
-                        (gameOver || isSameWordAsPrevious))))),
+                        (gameOver || isSameWordAsPrevious)))),
         const Expanded(flex: 1, child: SizedBox()),
       ],
     );
