@@ -149,15 +149,30 @@ class PoemDisplay extends StatelessWidget {
     return Text(
       toBeginningOfSentenceCase(title)!,
       style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontStyle: FontStyle.italic,
+          fontWeight: FontWeight.w800,
           fontSize: 18),
       textAlign: TextAlign.center,
     ).frosted(
-      blur: 2.5 - (1-attemptNumber)/2,
+      blur: blur(attemptNumber),
       frostOpacity: 1,
-      frostColor: attemptNumber > Constants.attemptNumbers ? Colors.transparent : Colors.white
+      frostColor: attemptNumber > Constants.attemptNumbers ? Colors.transparent : Colors.white,
+      padding: const EdgeInsets.all(4.0)
     );
+  }
+
+  double blur(int attemptNumber) {
+    switch (attemptNumber) {
+      case 1:
+        return 2.0;
+      case 2:
+        return 2.5;
+      case 3:
+        return 3.5;
+      case 4:
+        return 4.4;
+      default:
+        return 0.0;
+    }
   }
 
   Widget getShareButton(BuildContext context, Poem poem, bool gameOver, int attemptNumber) {
