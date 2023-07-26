@@ -217,10 +217,11 @@ packages:
   flutter_html:
     dependency: "direct main"
     description:
-      name: flutter_html
-      sha256: "02ad69e813ecfc0728a455e4bf892b9379983e050722b1dce00192ee2e41d1ee"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: e7d4bf8954dff1580de67b678ea1d932a1a1939c
+      url: "https://github.com/aalloul/flutter_html.git"
+    source: git
     version: "3.0.0-beta.2"
   flutter_lints:
     dependency: "direct dev"

@@ -136,10 +136,12 @@ class PoemDisplay extends StatelessWidget {
   Widget wrapVerseInText(String verse) {
     return Text(
       verse,
-      style: const TextStyle(
+      style: TextStyle(
           fontWeight: FontWeight.w500,
           fontStyle: FontStyle.italic,
-          fontSize: 18),
+          fontSize: 18,
+          color: Constants.writingColor
+      ),
       textAlign: TextAlign.center,
     );
   }
@@ -148,14 +150,16 @@ class PoemDisplay extends StatelessWidget {
     printIfDebug("attemptNumber = $attemptNumber");
     return Text(
       toBeginningOfSentenceCase(title)!,
-      style: const TextStyle(
+      style: TextStyle(
           fontWeight: FontWeight.w800,
-          fontSize: 18),
+          fontSize: 18,
+          color: Constants.writingColor,
+      ),
       textAlign: TextAlign.center,
     ).frosted(
       blur: blur(attemptNumber),
       frostOpacity: 1,
-      frostColor: attemptNumber > Constants.attemptNumbers ? Colors.transparent : Colors.white,
+      frostColor: attemptNumber > Constants.attemptNumbers ? Colors.transparent : Constants.writingColor,
       padding: const EdgeInsets.all(4.0)
     );
   }
@@ -183,10 +187,10 @@ class PoemDisplay extends StatelessWidget {
             onPressed: () => _onShare(context, poem, attemptNumber),
             style: ButtonStyle(
                 backgroundColor:
-                MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+                MaterialStatePropertyAll<Color>(Constants.buttonsColor)),
             child: Text(
               S.of(context).share_button,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
             ));
       },
     );
@@ -212,7 +216,7 @@ class PoemDisplay extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28),
                   side: const BorderSide(width: 1, color: Colors.grey)),
-              content: const Text("Copied to clipboard"),
+              content: const Text("Copied to clipboard", style: TextStyle(color: Colors.black),),
               // actionsAlignment: MainAxisAlignment.spaceBetween,
               backgroundColor: Colors.white,
             );

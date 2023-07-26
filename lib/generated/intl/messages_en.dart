@@ -24,13 +24,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Indeed, the word today was ${word}! Come back tomorrow for a new game :)";
 
   static String m1(word) =>
-      "The word of today was ${word} but worry not, tomorrow you\'ll get to try again with a new poem!";
+      "The word of today was ${word} but worry not, tomorrow you\'\'ll get to try again with a new poem!";
 
   static String m2(poem, url) =>
-      "Can you guess this poem\'s title:\n\n${poem}\n\nTry it out at ${url}\n";
+      "Can you guess this poem\'\'s title:\n\n${poem}\n\nTry it out at ${url}\n";
 
   static String m3(poem, n, url) =>
-      "Can you guess this poem\'s title:\n\n${poem}\n\nMy score today ${n}/5.\n\n${url}\n";
+      "Can you guess this poem\'\'s title:\n\n${poem}\n\nMy score today ${n}/5.\n\n${url}\n";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -43,7 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Congratulations !"),
         "correct_word": m0,
         "detailed_rules": MessageLookupByLibrary.simpleMessage(
-            "<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let\'s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n    Unveiling secrets, nature\'s enigma born.<br>\n    Silent slither, a creature of mystique,<br>\n    Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style=\"color: orange\">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>"),
+            "<html>\n<head>\n    <style>\n        h3\'{\'color: #E8DED1\'}\'\n        p\'{\'color: #E8DED1\'}\'\n    </style>\n</head>\n<body>\n<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let\'\'s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature\'\'s enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style=\"color: orange\">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>\n</body>\n</html>"),
         "detailed_stats":
             MessageLookupByLibrary.simpleMessage("Guess distribution"),
         "game_stats": MessageLookupByLibrary.simpleMessage("Statistics"),
@@ -51,9 +51,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "games_played": MessageLookupByLibrary.simpleMessage("Played"),
         "games_won": MessageLookupByLibrary.simpleMessage("Won"),
         "guess_todays_word":
-            MessageLookupByLibrary.simpleMessage("Guess today\'s word"),
+            MessageLookupByLibrary.simpleMessage("Guess today\'\'s word"),
         "incorrect_word": m1,
-        "lets_go": MessageLookupByLibrary.simpleMessage("Let\'s go!"),
+        "lets_go": MessageLookupByLibrary.simpleMessage("Let\'\'s go!"),
         "not_in_word_list":
             MessageLookupByLibrary.simpleMessage("Not in word list"),
         "open_game": MessageLookupByLibrary.simpleMessage("Start the game"),
@@ -63,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "share_text": m2,
         "share_text_win": m3,
         "short_description": MessageLookupByLibrary.simpleMessage(
-            "We\'ve asked an AI to write a poem about a specific word. Can you guess which word it is?"),
+            "We\'\'ve asked an AI to write a poem about a specific word. Can you guess which word it is?"),
         "too_bad": MessageLookupByLibrary.simpleMessage("Too bad !"),
         "type_a_word": MessageLookupByLibrary.simpleMessage("Type a word"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to PoetAI"),

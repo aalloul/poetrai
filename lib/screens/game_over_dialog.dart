@@ -115,8 +115,8 @@ class GameOverDialog extends StatelessWidget {
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-            fontWeight: FontWeight.w500, fontSize: 24.0, color: Colors.white),
+        style: TextStyle(
+            fontWeight: FontWeight.w500, fontSize: 24.0, color: Constants.writingColor),
       ),
       content: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -149,6 +149,7 @@ class GameOverDialog extends StatelessWidget {
               content,
               maxLines: 2,
               textAlign: TextAlign.center,
+              style: TextStyle(color: Constants.writingColor),
             )
           ]),
       actionsAlignment: MainAxisAlignment.center,
@@ -172,15 +173,16 @@ class GameOverDialog extends StatelessWidget {
               title: Text(
                 S.of(context).guess_todays_word,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 24.0,
-                    color: Colors.white),
+                    color: Constants.writingColor),
               ),
               content: Text(
                 S.of(context).short_description,
                 textAlign: TextAlign.center,
                 maxLines: 4,
+                style: TextStyle(color: Constants.writingColor),
               ),
               actionsAlignment: MainAxisAlignment.center,
               alignment: Alignment.center,
@@ -190,10 +192,10 @@ class GameOverDialog extends StatelessWidget {
                         Navigator.of(context, rootNavigator: true).pop(),
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll<Color>(
-                            Constants.primaryColor)),
+                            Constants.buttonsColor)),
                     child: Text(
                       S.of(context).lets_go,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black),
                     )),
               ],
             ));

@@ -101,7 +101,7 @@ class UserInputArea extends StatelessWidget {
         Text(
           word,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 20, color: Colors.white),
+          style: TextStyle(fontSize: 20, color: Constants.writingColor),
         ),
         Container(margin: const EdgeInsets.fromLTRB(0, 0, 10, 0))
       ]);
@@ -110,12 +110,12 @@ class UserInputArea extends StatelessWidget {
       children.add(Text(
         userStringInput,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 20, color: Colors.black),
+        style: TextStyle(fontSize: 20, color: Constants.writingColor),
       ));
     }
 
     return Container(
-        color: Colors.grey,
+        color: Colors.black,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -166,9 +166,9 @@ class UserInputArea extends StatelessWidget {
     if (letter == "Enter") {
       return IconButton(
         padding: const EdgeInsets.all(1),
-        icon: const Icon(
+        icon: Icon(
           Icons.keyboard_return,
-          color: Colors.white,
+          color: Constants.buttonsColor,
         ),
         onPressed: () {
           userInputProvider.commit(dictionary!, poem!.todaysWord, previousWord);
@@ -178,9 +178,9 @@ class UserInputArea extends StatelessWidget {
     } else if (letter == "Delete") {
       return IconButton(
         padding: const EdgeInsets.all(1),
-        icon: const Icon(
+        icon: Icon(
           Icons.backspace,
-          color: Colors.white,
+          color: Constants.buttonsColor,
         ),
         onPressed: () => userInputProvider.deleteLastInputLetter(),
         color: Colors.black45,
@@ -199,7 +199,7 @@ class UserInputArea extends StatelessWidget {
                   : Colors.black45,
             ),
             child: Text(letter,
-                style: const TextStyle(color: Colors.white, fontSize: 18)),
+                style: TextStyle(color: Constants.writingColor, fontSize: 18)),
           ));
     }
   }

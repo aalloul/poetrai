@@ -39,7 +39,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     return Selector<Poem, Tuple2<String, String>>(
         selector: (_, poem) => Tuple2(poem.todaysWord, poem.poemPart1),
         builder: (context, data, child) => AppBar(
-              backgroundColor: Constants.primaryColor,
+              backgroundColor: Colors.black,
               title: title(),
               actions: [
                 showStatsButton(context, cookieData, data.item1, data.item2),
@@ -53,14 +53,15 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
   }
 
   Widget title() {
-    return const Row(
+    TextStyle style = TextStyle(color: Constants.writingColor);
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Image.asset(
-        //   "assets/images/poetai-logo-64x64.png",
-        //   scale: 6.25,
-        // ),
-        kDebugMode ? Text("PoetAI v0.0.1 - ") : Text("PoetAI")
+        Image.asset(
+          "assets/images/poetai-logo-64x64.png",
+          scale: 1,
+        ),
+        kDebugMode ? Text("PoetAI v0.0.1 - ", style: style,) : Text("PoetAI", style: style,)
       ],
     );
   }
@@ -80,7 +81,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
             builder: (_) => showGameStats(_, cookieData, todayWord, poemPart1));
       },
       padding: EdgeInsets.zero,
-      child: const Icon(Icons.bar_chart, color: Colors.white),
+      child: Icon(Icons.bar_chart, color: Constants.buttonsColor),
     );
   }
 
@@ -95,10 +96,10 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       ),
       title: Text(S.of(context).game_stats,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 24.0,
-              color: Colors.white)),
+              color: Constants.writingColor)),
       content: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,19 +156,19 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 1.0),
                 child: Text(value,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0,
-                        color: Colors.white))),
+                        color: Constants.writingColor))),
             Padding(
                 padding: const EdgeInsets.fromLTRB(3.0, 1.0, 3.0, 8.0),
                 child: Text(title,
                     maxLines: 2,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0,
-                        color: Colors.white)))
+                        color: Constants.writingColor)))
           ]),
     ));
   }
@@ -176,10 +177,10 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
     return SfCartesianChart(
         title: ChartTitle(
             text: S.of(context).detailed_stats,
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18.0,
-                color: Colors.white)),
+                color: Constants.writingColor)),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(
           isVisible: false,
@@ -224,10 +225,10 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
       onPressed: _launchUrl,
       style: ButtonStyle(
           backgroundColor:
-              MaterialStatePropertyAll<Color>(Constants.secondaryColor)),
+              MaterialStatePropertyAll<Color>(Constants.writingColor)),
       child: Text(
         S.of(context).share_feedback,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.black),
       ),
     );
   }
@@ -246,11 +247,11 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
         return ElevatedButton(
           style: ButtonStyle(
               backgroundColor:
-                  MaterialStatePropertyAll<Color>(Constants.primaryColor)),
+                  MaterialStatePropertyAll<Color>(Constants.buttonsColor)),
           onPressed: () => _onShare(context, poemPart1),
           child: Text(
             S.of(context).share_button,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.black),
           ),
         );
       },
@@ -277,7 +278,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28),
                   side: const BorderSide(width: 1, color: Colors.grey)),
-              content: const Text("Copied to clipboard"),
+              content: const Text("Copied to clipboard", style: TextStyle(color: Colors.black),),
               // actionsAlignment: MainAxisAlignment.spaceBetween,
               backgroundColor: Colors.white,
             );
@@ -297,7 +298,7 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
             context: context, builder: (_) => showGameHelpDialog(context));
       },
       padding: EdgeInsets.zero,
-      child: const Icon(Icons.question_mark, color: Colors.white),
+      child: Icon(Icons.question_mark, color: Constants.buttonsColor),
     );
   }
 
