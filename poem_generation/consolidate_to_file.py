@@ -43,9 +43,9 @@ def generate_shuffled_date_list(from_date: date, n_dates: int):
 
 
 if __name__ == "__main__":
-    file_list = glob.glob("words/*")
+    file_list = glob.glob("words/en/*")
 
-    start_date = date(2023, 6, 23)
+    start_date = date(2023, 7, 27)
     list_date_for_word = generate_shuffled_date_list(start_date, len(file_list))
 
     today_date = date.today()
