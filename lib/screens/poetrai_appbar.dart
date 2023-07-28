@@ -307,11 +307,18 @@ class _PoetrAIAppBar extends State<PoetrAIAppBar> {
 
     AlertDialog alertDialog = AlertDialog(
       title: null,
+      backgroundColor: Colors.black,
       content: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: ConstrainedBox(
               constraints: const BoxConstraints.tightForFinite(width: 540),
-              child: Html(data: S.of(context).detailed_rules))),
+              child: Html(
+                data: S.of(context).detailed_rules,
+                style: {
+                  "h3": Style(color: Constants.writingColor),
+                  "p": Style(color: Constants.writingColor),
+                },
+              ))),
       actions: const [
         // reusableButtons.closeGameRulesButton(S.of(context).back_to_game)
       ],

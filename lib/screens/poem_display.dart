@@ -54,11 +54,12 @@ class PoemDisplay extends StatelessWidget {
               }
             }),
         Container(height: 40,),
-        Selector2<UserInputProvider, CookieData, Tuple2<bool, int>>(
-          selector: (_, userInputProvider, cookieData) => Tuple2(
-              userInputProvider.gameOver || cookieData.lastGameWord().word == poem.todaysWord, userInputProvider.attemptNumber),
+        Selector2<UserInputProvider, CookieData, Tuple3<bool, bool, int>>(
+          selector: (_, userInputProvider, cookieData) => Tuple3(
+              userInputProvider.gameOver || cookieData.lastGameWord().word == poem.todaysWord, userInputProvider.hasWon, userInputProvider.attemptNumber),
           builder: (context, data, child) {
-            return getShareButton(context, poem, data.item1, data.item2);
+            String attemptInString = (data.item1 & data.item2) ? data.item3.toString() : "X";
+            return getShareButton(context, poem, data.item1, attemptInString);
           },
           shouldRebuild: (before, after) => after.item1 == true,
         )
@@ -179,7 +180,7 @@ class PoemDisplay extends StatelessWidget {
     }
   }
 
-  Widget getShareButton(BuildContext context, Poem poem, bool gameOver, int attemptNumber) {
+  Widget getShareButton(BuildContext context, Poem poem, bool gameOver, String attemptNumber) {
     if (!gameOver) return Container();
     return Builder(
       builder: (BuildContext context) {
@@ -196,7 +197,7 @@ class PoemDisplay extends StatelessWidget {
     );
   }
 
-  void _onShare(BuildContext context, Poem poem, int attemptNumber) async {
+  void _onShare(BuildContext context, Poem poem, String attemptNumber) async {
     analytics.logEvent(name: "Share app");
 
     if (isWebMobile) {
@@ -224,9 +225,9 @@ class PoemDisplay extends StatelessWidget {
     }
   }
 
-  String shareTextMessage(BuildContext context, Poem poem, int attemptNumber) {
+  String shareTextMessage(BuildContext context, Poem poem, String attemptNumber) {
     return S
         .of(context)
-        .share_text_win(poem.poemPart1, attemptNumber.toString(), Uri.base.toString());
+        .share_text_win(poem.poemPart1, attemptNumber, Uri.base.toString());
   }
 }

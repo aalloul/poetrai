@@ -2,7 +2,7 @@
   "@@locale": "fr",
   "congratulations": "Félicitations !",
   "too_bad": "Dommage !",
-  "incorrect_word": "Le mot d''aujourd''hui est {word} mais ne t''inquiète, demain tu auras la possibilité de retenter ta chance avec un autre poême",
+  "incorrect_word": "Le mot d'aujourd'hui est {word} mais ne t'inquiète, demain tu auras la possibilité de retenter ta chance avec un autre poême",
   "@incorrect_word": {
     "placeholders": {
       "word": {
@@ -33,7 +33,7 @@
       }
     }
   },
-  "share_text_win": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nMon score aujourd''hui {n}/5.\n\n{url}\n",
+  "share_text_win": "Peux-tu deviner le titre de ce poême:\n\n{poem}\n\nMon score aujourd'hui {n}/5.\n\n{url}\n",
   "@share_text_win": {
     "placeholders": {
       "poem": {
@@ -56,10 +56,10 @@
   "win_rate": "% Gagnés",
   "games_lost": "Perdus",
   "avg_number_attempts": "Coups moyen",
-  "detailed_rules": "<html>\n<head>\n    <style>\n        h3'{'color: #E8DED1'}'\n        p'{'color: #E8DED1'}'\n    </style>\n</head>\n<body>\n<div><h3>C''est quoi PoetAI?</h3><p>On a demandé à une IA d''écrire un poême à partir d''un mot. Le jeu est de deviner ce mot en 5 essais ou moins!</p\n><h3>Comment jouer? </h3>\n    <p>Imaginons que le mot à deviner est serpent. Le jeu commence en affichant la 1ère partie du poême</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature''s enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>Si tu tapes souris (par exemple), les letters S et R sur le clavier s''afficheront en <span style=\"color: orange\">orange</span> et la partie suivante du poême s''affichiera.</p>\n    <p>Tu as 4 autres essais pour deviner le bon mot!</p>\n    <p>Chaque jour à minuit CEST, un nouveau poême est publié et tu pourras retenter ta chance</p>\n</div>\n</body>\n</html>",
+  "detailed_rules": "<html><body>\n<div><h3>C'est quoi PoetAI?</h3><p>On a demandé à une IA d'écrire un poême à partir d'un mot. Le jeu est de deviner ce mot en 5 essais ou moins!</p\n><h3>Comment jouer? </h3>\n    <p>Imaginons que le mot à deviner est serpent. Le jeu commence en affichant la 1ère partie du poême</p>\n    <p style=\"text-align: center\"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature's enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>Si tu tapes souris (par exemple), les letters S et R sur le clavier s'afficheront en <span style=\"color: orange\">orange</span> et la partie suivante du poême s'affichiera.</p>\n    <p>Tu as 4 autres essais pour deviner le bon mot!</p>\n    <p>Chaque jour à minuit CEST, un nouveau poême est publié et tu pourras retenter ta chance</p>\n</div>\n</body>\n</html>",
   "type_a_word": "Tape un mot",
   "not_in_word_list": "Pas dans la liste des mots",
-  "guess_todays_word": "Devine le mot d''aujourd''hui",
-  "short_description": "Nous avons demandé à une IA d''êcrire un poême à partir d''un mot. Sauras-tu deviner ce mot?",
-  "lets_go": "Allons-y!"
+  "guess_todays_word": "Devine le mot d'aujourd'hui",
+  "short_description": "Nous avons demandé à une IA d'écrire un poême à partir d'un mot. Sauras-tu deviner ce mot ?",
+  "lets_go": "Allons-y !"
 }

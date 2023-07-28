@@ -34,6 +34,7 @@ class UserInputProvider extends ChangeNotifier {
   int get attemptNumber => _attemptNumber;
 
   List<String> _listWords = <String>[];
+
   List<String> get listWords => _listWords;
 
   DateTime? gameStarted;
@@ -45,7 +46,8 @@ class UserInputProvider extends ChangeNotifier {
       printIfDebug("Game is finished - disable editing");
       return;
     } else {
-      gameStarted ??= DateTime.now(); // if null, set it otherwise don't do anything
+      gameStarted ??=
+          DateTime.now(); // if null, set it otherwise don't do anything
       _currentUserInput += letter;
 
       printIfDebug("Adding letter $letter");
@@ -130,7 +132,7 @@ class UserInputProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  int gameDuration(){
+  int gameDuration() {
     return gameStarted!.difference(DateTime.now()).inSeconds;
   }
 }

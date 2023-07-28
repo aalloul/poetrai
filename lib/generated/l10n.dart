@@ -70,10 +70,10 @@ class S {
     );
   }
 
-  /// `The word of today was {word} but worry not, tomorrow you''ll get to try again with a new poem!`
+  /// `The word of today was {word} but worry not, tomorrow you'll get to try again with a new poem!`
   String incorrect_word(String word) {
     return Intl.message(
-      'The word of today was $word but worry not, tomorrow you\'\'ll get to try again with a new poem!',
+      'The word of today was $word but worry not, tomorrow you\'ll get to try again with a new poem!',
       name: 'incorrect_word',
       desc: '',
       args: [word],
@@ -130,20 +130,20 @@ class S {
     );
   }
 
-  /// `Can you guess this poem''s title:\n\n{poem}\n\nTry it out at {url}\n`
+  /// `Can you guess this poem's title:\n\n{poem}\n\nTry it out at {url}\n`
   String share_text(String poem, String url) {
     return Intl.message(
-      'Can you guess this poem\'\'s title:\n\n$poem\n\nTry it out at $url\n',
+      'Can you guess this poem\'s title:\n\n$poem\n\nTry it out at $url\n',
       name: 'share_text',
       desc: '',
       args: [poem, url],
     );
   }
 
-  /// `Can you guess this poem''s title:\n\n{poem}\n\nMy score today {n}/5.\n\n{url}\n`
+  /// `Can you guess this poem's title:\n\n{poem}\n\nMy score today {n}/5.\n\n{url}\n`
   String share_text_win(String poem, String n, String url) {
     return Intl.message(
-      'Can you guess this poem\'\'s title:\n\n$poem\n\nMy score today $n/5.\n\n$url\n',
+      'Can you guess this poem\'s title:\n\n$poem\n\nMy score today $n/5.\n\n$url\n',
       name: 'share_text_win',
       desc: '',
       args: [poem, n, url],
@@ -240,10 +240,10 @@ class S {
     );
   }
 
-  /// `<html>\n<head>\n    <style>\n        h3'{'color: #E8DED1'}'\n        p'{'color: #E8DED1'}'\n    </style>\n</head>\n<body>\n<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let''s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature''s enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>\n</body>\n</html>`
+  /// `<html><body>\n<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let's assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature's enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>\n</body>\n</html>`
   String get detailed_rules {
     return Intl.message(
-      '<html>\n<head>\n    <style>\n        h3\'{\'color: #E8DED1\'}\'\n        p\'{\'color: #E8DED1\'}\'\n    </style>\n</head>\n<body>\n<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let\'\'s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature\'\'s enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>\n</body>\n</html>',
+      '<html><body>\n<div><h3>What is PoetAI?</h3><p>We asked an AI to write poems around a specific word. Your task is to guess this word in 5 attempts or less!</p><h3>How to play? </h3>\n    <p>Let\'s assume the word to guess is snake. The game will start with displaying the 1st part of the poem</p>\n    <p style="text-align: center"><i>In tangled coils, a sleek and slender form,<br>\n        Unveiling secrets, nature\'s enigma born.<br>\n        Silent slither, a creature of mystique,<br>\n        Serpent whispers, a language unique.</i></p>\n    <p>If you typed mouse (incorrect guess), the letters S and E on the keyboard will be colored in <span style="color: orange">orange</span> and the next part of the poem will appear.</p>\n    <p>You have 4 more attempts to guess the correct word!</p>\n    <p>Every day at midnight CEST, a new poem is released and you get to guess the new word</p>\n</div>\n</body>\n</html>',
       name: 'detailed_rules',
       desc: '',
       args: [],
@@ -270,30 +270,30 @@ class S {
     );
   }
 
-  /// `Guess today''s word`
+  /// `Guess today's word`
   String get guess_todays_word {
     return Intl.message(
-      'Guess today\'\'s word',
+      'Guess today\'s word',
       name: 'guess_todays_word',
       desc: '',
       args: [],
     );
   }
 
-  /// `We''ve asked an AI to write a poem about a specific word. Can you guess which word it is?`
+  /// `We've asked an AI to write a poem about a specific word. Can you guess which word it is?`
   String get short_description {
     return Intl.message(
-      'We\'\'ve asked an AI to write a poem about a specific word. Can you guess which word it is?',
+      'We\'ve asked an AI to write a poem about a specific word. Can you guess which word it is?',
       name: 'short_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `Let''s go!`
+  /// `Let's go!`
   String get lets_go {
     return Intl.message(
-      'Let\'\'s go!',
+      'Let\'s go!',
       name: 'lets_go',
       desc: '',
       args: [],
