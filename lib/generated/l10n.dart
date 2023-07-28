@@ -299,6 +299,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Come back tomorrow for a new poem but for now you can share the love ⤵️`
+  String get comeback_tomorrow_but_share {
+    return Intl.message(
+      'Come back tomorrow for a new poem but for now you can share the love ⤵️',
+      name: 'comeback_tomorrow_but_share',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

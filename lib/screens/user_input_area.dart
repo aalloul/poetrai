@@ -13,7 +13,6 @@ import '../data_layer/poem.dart';
 import '../generated/l10n.dart';
 
 class UserInputArea extends StatelessWidget {
-
   const UserInputArea({
     Key? key,
   }) : super(key: key);
@@ -24,69 +23,82 @@ class UserInputArea extends StatelessWidget {
         Provider.of<UserInputProvider>(context, listen: false);
     Dictionary dictionary = Provider.of<Dictionary>(context);
     Poem poem = Provider.of<Poem>(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Selector<UserInputProvider, Tuple3<String, List<String>, bool>>(
-            selector: (_, userInputProvider) => Tuple3(
-                userInputProvider.currentUserInput,
-                userInputProvider.listWords,
-                userInputProvider.gameOver),
-            builder: (context, data, child) {
-              return currentUserInputDisplay(
-                  data.item1, data.item2, data.item3);
-            }),
-        Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
-            selector: (_, userInputProvider, cookieData) => Tuple2(
-                userInputProvider.lettersFound, cookieData.lastGameWord().word),
-            builder: (context, data, child) {
-              return keyBoard(
-                ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-                userInputProvider,
-                data.item1,
-                null,
-                poem,
-                data.item2,
-              );
-            }),
-        Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
-            selector: (_, userInputProvider, cookieData) => Tuple2(
-                userInputProvider.lettersFound, cookieData.lastGameWord().word),
-            builder: (context, data, child) {
-              return keyBoard(
-                  ["a", "s", "d", "f", "g", "h", "j", "k", "l", "Delete"],
-                  userInputProvider,
-                  data.item1,
-                  null,
-                  poem,
-                  data.item2);
-            }),
-        Selector2<UserInputProvider, CookieData, Tuple2<Set<String>, String>>(
-            selector: (_, userInputProvider, cookieData) => Tuple2(
-                userInputProvider.lettersFound, cookieData.lastGameWord().word),
-            builder: (context, data, child) {
-              return keyBoard(["z", "x", "c", "v", "b", "n", "m", "Enter"],
-                  userInputProvider, data.item1, dictionary, poem, data.item2);
-            },
-            shouldRebuild: (before, after) {
-              return before != after;
-            }),
-        Selector<UserInputProvider, Tuple2<bool, bool>>(
-          selector: (_, userInputProvider) => Tuple2(
-              userInputProvider.wordDoesNotExist,
-              userInputProvider.currentWordIsEmpty),
-          builder: (context, data, child) {
-            return dialogPlaceHolder(
-                data.item1, data.item2, context, userInputProvider);
-          },
-          shouldRebuild: (before, after) {
-            return after.item1 || after.item2;
-          },
-        ),
-      ],
-    );
+    return Container(
+        color: Colors.white24,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Selector<UserInputProvider, Tuple3<String, List<String>, bool>>(
+                selector: (_, userInputProvider) => Tuple3(
+                    userInputProvider.currentUserInput,
+                    userInputProvider.listWords,
+                    userInputProvider.gameOver),
+                builder: (context, data, child) {
+                  return currentUserInputDisplay(
+                      data.item1, data.item2, data.item3);
+                }),
+            Selector2<UserInputProvider, CookieData,
+                    Tuple2<Set<String>, String>>(
+                selector: (_, userInputProvider, cookieData) => Tuple2(
+                    userInputProvider.lettersFound,
+                    cookieData.lastGameWord().word),
+                builder: (context, data, child) {
+                  return keyBoard(
+                    ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+                    userInputProvider,
+                    data.item1,
+                    null,
+                    poem,
+                    data.item2,
+                  );
+                }),
+            Selector2<UserInputProvider, CookieData,
+                    Tuple2<Set<String>, String>>(
+                selector: (_, userInputProvider, cookieData) => Tuple2(
+                    userInputProvider.lettersFound,
+                    cookieData.lastGameWord().word),
+                builder: (context, data, child) {
+                  return keyBoard(
+                      ["a", "s", "d", "f", "g", "h", "j", "k", "l", "Delete"],
+                      userInputProvider,
+                      data.item1,
+                      null,
+                      poem,
+                      data.item2);
+                }),
+            Selector2<UserInputProvider, CookieData,
+                    Tuple2<Set<String>, String>>(
+                selector: (_, userInputProvider, cookieData) => Tuple2(
+                    userInputProvider.lettersFound,
+                    cookieData.lastGameWord().word),
+                builder: (context, data, child) {
+                  return keyBoard(
+                      ["z", "x", "c", "v", "b", "n", "m", "Enter"],
+                      userInputProvider,
+                      data.item1,
+                      dictionary,
+                      poem,
+                      data.item2);
+                },
+                shouldRebuild: (before, after) {
+                  return before != after;
+                }),
+            Selector<UserInputProvider, Tuple2<bool, bool>>(
+              selector: (_, userInputProvider) => Tuple2(
+                  userInputProvider.wordDoesNotExist,
+                  userInputProvider.currentWordIsEmpty),
+              builder: (context, data, child) {
+                return dialogPlaceHolder(
+                    data.item1, data.item2, context, userInputProvider);
+              },
+              shouldRebuild: (before, after) {
+                return after.item1 || after.item2;
+              },
+            )
+          ],
+        ));
   }
 
   Widget currentUserInputDisplay(
@@ -187,7 +199,7 @@ class UserInputArea extends StatelessWidget {
       );
     } else {
       return Padding(
-          padding: const EdgeInsets.all(2),
+          padding: const EdgeInsets.all(5),
           child: TextButton(
             onPressed: () => (previousWord != poem?.todaysWord)
                 ? userInputProvider.addLetterUserInput(letter)
@@ -199,7 +211,7 @@ class UserInputArea extends StatelessWidget {
                   : Colors.black45,
             ),
             child: Text(letter,
-                style: TextStyle(color: Constants.writingColor, fontSize: 18)),
+                style: TextStyle(color: Constants.writingColor, fontSize: 27)),
           ));
     }
   }
@@ -267,5 +279,4 @@ class UserInputArea extends StatelessWidget {
       ),
     );
   }
-
 }

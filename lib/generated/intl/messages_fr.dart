@@ -39,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "back_to_game": MessageLookupByLibrary.simpleMessage("Revenir au jeu"),
         "comeback_tomorrow": MessageLookupByLibrary.simpleMessage(
             "Reviens demain pour un nouveau jeu!"),
+        "comeback_tomorrow_but_share": MessageLookupByLibrary.simpleMessage(
+            "Reviens demain pour un nouveau poême mais pour le moment, tu peux partager ⤵️"),
         "congratulations":
             MessageLookupByLibrary.simpleMessage("Félicitations !"),
         "correct_word": m0,

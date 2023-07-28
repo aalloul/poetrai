@@ -182,7 +182,7 @@ class PoemDisplay extends StatelessWidget {
 
   Widget getShareButton(BuildContext context, Poem poem, bool gameOver, String attemptNumber) {
     if (!gameOver) return Container();
-    return Builder(
+    Widget button = Builder(
       builder: (BuildContext context) {
         return ElevatedButton(
             onPressed: () => _onShare(context, poem, attemptNumber),
@@ -194,6 +194,23 @@ class PoemDisplay extends StatelessWidget {
               style: const TextStyle(color: Colors.black),
             ));
       },
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(S.of(context).comeback_tomorrow_but_share,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+            color: Constants.writingColor,
+
+          ),
+        ),
+        const SizedBox(height: 20),
+        button,
+      ],
     );
   }
 

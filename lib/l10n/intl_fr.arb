@@ -61,5 +61,6 @@
   "not_in_word_list": "Pas dans la liste des mots",
   "guess_todays_word": "Devine le mot d'aujourd'hui",
   "short_description": "Nous avons demandé à une IA d'écrire un poême à partir d'un mot. Sauras-tu deviner ce mot ?",
-  "lets_go": "Allons-y !"
+  "lets_go": "Allons-y !",
+  "comeback_tomorrow_but_share": "Reviens demain pour un nouveau poême mais pour le moment, tu peux partager ⤵️"
 }
